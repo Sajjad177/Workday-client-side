@@ -1,4 +1,4 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
@@ -9,30 +9,28 @@ const Navbar = () => {
         </div>
         <div className="flex items-center justify-between gap-16">
           <ul className="flex items-center justify-between gap-10">
-            <NavLink to="/" className="group flex  cursor-pointer flex-col">
+            <Link to="/" className="group flex  cursor-pointer flex-col">
               Home
               <span className="mt-[2px] h-[3px] w-[0px] rounded-full bg-sky-500 transition-all duration-300 group-hover:w-full"></span>
-            </NavLink>
-            <Link to="/join-employee" className="group flex  cursor-pointer flex-col">
+            </Link>
+            <Link
+              to="/join-employee"
+              className="group flex  cursor-pointer flex-col"
+            >
               Join As Employee
               <span className="mt-[2px] h-[3px]  w-[0px] rounded-full bg-sky-500 transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            <li className="group flex  cursor-pointer flex-col">
-              About{" "}
+            <Link to="/join-hr" className="group flex  cursor-pointer flex-col">
+              Join As HR/Admin
               <span className="mt-[2px] h-[3px]  w-[0px] rounded-full bg-sky-500 transition-all duration-300 group-hover:w-full"></span>
-            </li>
-            <li className="group flex  cursor-pointer flex-col">
-              Contact{" "}
-              <span className="mt-[2px] h-[3px]  w-[0px] rounded-full bg-sky-500 transition-all duration-300 group-hover:w-full"></span>
-            </li>
+            </Link>
           </ul>
           <div className="flex items-center justify-between gap-5">
-            <button className="rounded-full bg-sky-600 px-6 py-2 text-white transition-all duration-300 hover:scale-90">
-              Log In
-            </button>
-            <button className="rounded-full bg-sky-600 px-6 py-2 text-white transition-all duration-300 hover:scale-90">
-              Register
-            </button>
+            <Link to="/login">
+              <button className="rounded-full bg-sky-600 px-6 py-2 text-white transition-all duration-300 hover:scale-90">
+                Log In
+              </button>
+            </Link>
           </div>
         </div>
       </nav>

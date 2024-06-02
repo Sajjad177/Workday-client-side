@@ -4,7 +4,7 @@ import OurPackages from "../../Components/OurPackages/OurPackages";
 
 const Home = () => {
   return (
-    <div>
+    <div className="container mx-auto">
       <Banner></Banner>
       <AboutUs></AboutUs>
       <OurPackages></OurPackages>
