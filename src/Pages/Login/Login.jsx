@@ -1,12 +1,24 @@
-const Login = () => {
+import useAuth from "../../Hook/useAuth";
+import toast from "react-hot-toast";
 
-  const handelLogin = (e) => {
-    e.preventDefault()
+const Login = () => {
+  const { signIn } = useAuth();
+
+  const handelLogin = async (e) => {
+    e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password)
-  }
+    console.log(email, password);
+
+    try {
+      await signIn(email, password);
+      toast.success("Login Successfully")
+    } catch (error) {
+      console.log(error);
+      toast.error("Invalid please check again")
+    }
+  };
 
   return (
     <div className="container mx-auto">
@@ -32,7 +44,7 @@ const Login = () => {
             <h2 className="pb-8 text-center text-3xl font-bold text-[#8EA7E9]">
               Login Here
             </h2>
-            <form onSubmit={handelLogin} >
+            <form onSubmit={handelLogin}>
               <div className="flex  w-full flex-col items-center justify-center gap-4">
                 <input
                   className="w-[80%] rounded-lg border border-[#8EA7E9] px-6 py-2 focus:outline-none focus:ring-2 focus:ring-[#8EA7E9]/50 md:w-[60%]"

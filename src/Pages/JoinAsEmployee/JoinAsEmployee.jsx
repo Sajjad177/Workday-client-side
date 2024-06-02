@@ -1,11 +1,15 @@
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import useAuth from "../../Hook/useAuth";
+import toast from "react-hot-toast";
 
 const JoinAsEmployee = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const { signInWithGoogle, createUser, setLoading} =
+    useAuth();
 
-  const handelSubmit = (e) => {
+  const handelSubmit = async (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
@@ -13,13 +17,41 @@ const JoinAsEmployee = () => {
     const password = form.password.value;
     const dateOfBirth = startDate;
 
-    console.log(name, email, dateOfBirth, password);
+    const asEmployee = (name, email, dateOfBirth, password);
+    console.log(asEmployee);
+
+    try {
+      const result = await createUser(email, password);
+      console.log(result);
+      // await updateUserProfile(name, photo);
+      // setUser({ ...result?.user, photoURL: photo, displayName: name });
+      // navigate(from, { replace: true });
+      toast.success("Sign In successfully");
+    } catch {
+      toast.error("Invalid Check again");
+    }
   };
+
+  const handleGoogle = async () => {
+    setLoading(true);
+    try {
+      await signInWithGoogle();
+      // navigate(from);
+      toast.success("Sign up successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="container mx-auto lg:my-20 my-14">
       <div className="w-full mx-auto lg:w-[500px] drop-shadow-lg bg-white">
-        <h1 className="backdrop-blur-sm text-4xl text-center font-bold">Join as Employee</h1>
+        <h1 className="backdrop-blur-sm text-4xl text-center font-bold">
+          Join as Employee
+        </h1>
         <form onSubmit={handelSubmit}>
           <div className="p-12">
             <div className="space-y-5">
@@ -86,6 +118,7 @@ const JoinAsEmployee = () => {
           </div>
           {/* sign with google */}
           <button
+          onClick={handleGoogle}
             type="button"
             className="py-2 px-5 mb-4 mt-8 mx-auto block shadow-lg border rounded-md border-black"
           >

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import image1 from "../../assets/banner-1.jpg";
 import image2 from "../../assets/banner-2.jpg";
+import { Link } from "react-router-dom";
 
 const Banner = () => {
   const [currentSlider, setCurrentSlider] = useState(0);
@@ -37,13 +38,17 @@ const Banner = () => {
           </div>
 
           {currentSlider === 0 ? (
-            <button className="text-xl mt-8 box-border border w-48 h-14 rounded-lg text-white relative group">
-              Employee
-            </button>
+            <Link to="/join-employee">
+              <button className="text-xl mt-8 box-border border w-48 h-14 rounded-lg text-white relative group">
+                Employee
+              </button>
+            </Link>
           ) : (
-            <button className="text-xl mt-8 box-border border w-48 h-14 rounded-lg text-white relative group">
-              HR/Admin
-            </button>
+            <Link to="/join-hr">
+              <button className="text-xl mt-8 box-border border w-48 h-14 rounded-lg text-white relative group">
+                HR/Admin
+              </button>
+            </Link>
           )}
         </div>
       </div>
