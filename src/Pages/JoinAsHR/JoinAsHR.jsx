@@ -2,13 +2,18 @@ import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Link } from "react-router-dom";
+import { FcUpload } from "react-icons/fc";
+
 
 const JoinAsHR = () => {
   const [startDate, setStartDate] = useState(new Date());
+  const [showName, setShowName] = useState({});
   return (
     <div className="container mx-auto lg:my-20 my-14">
       <div className="w-full mx-auto lg:w-[500px] drop-shadow-lg bg-white">
-        <h1 className="backdrop-blur-sm text-4xl pb-8 text-center font-bold">Join As HR/Admin</h1>
+        <h1 className="backdrop-blur-sm text-4xl pb-8 text-center font-bold">
+          Join As HR/Admin
+        </h1>
         <form className="">
           <div className="p-12">
             <div className="space-y-5">
@@ -32,6 +37,34 @@ const JoinAsHR = () => {
                   type="text"
                   placeholder="Enter your name"
                   className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
+                />
+              </div>
+              <label htmlFor="text" className="block">
+                Company Logo
+              </label>
+              <div>
+                <label
+                  className="flex w-full"
+                >
+                  <div className="p-3 w-full pl-10 drop-shadow-lg outline-none border-b-[2px] flex items-center gap-5">
+                    <FcUpload className="text-xl"></FcUpload>
+                    Choose File
+                  </div>
+                  <div className="flex w-full max-w-[380px] items-center border-b-[2px]  px-2 font-medium text-gray-400">
+                    {showName.name ? showName.name : "No File Chosen"}
+                  </div>
+                </label>
+                <input
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      const imageFile = e.target.files[0];
+                      setShowName(imageFile);
+                    }
+                  }}
+                  className="hidden"
+                  type="file"
+                  name=""
+                  id="type2-2"
                 />
               </div>
               <label htmlFor="email" className="block">
