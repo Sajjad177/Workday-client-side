@@ -14,6 +14,7 @@ import CustomRequest from "../Pages/Dashboard/Admin/CustomRequest";
 import MyEmployee from "../Pages/Dashboard/Admin/MyEmployee";
 import AddEmployee from "../Pages/Dashboard/Admin/AddEmployee";
 import AllRequest from "../Pages/Dashboard/Admin/AllRequest";
+import UpdateAsset from "../Pages/UpdateAsset/UpdateAsset";
 
 
 export const router = createBrowserRouter([
@@ -64,6 +65,11 @@ export const router = createBrowserRouter([
         {
           path:"add-asset",
           element:<AddAsset></AddAsset>
+        },
+        {
+          path:"update/:id",
+          element:<UpdateAsset></UpdateAsset>,
+          loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/asset/${params.id}`)
         },
         {
           path:"custom-request",

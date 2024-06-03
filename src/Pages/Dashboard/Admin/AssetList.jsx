@@ -1,19 +1,24 @@
-
 import { IoIosSearch } from "react-icons/io";
 import useAxiosCommon from "../../../Hook/useAxiosCommon";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import { useState } from "react";
+import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const AssetList = () => {
   const axiosCommon = useAxiosCommon();
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchInput, setSearchInput] = useState(""); // New state for input
+  const [searchInput, setSearchInput] = useState("");
   const [stockStatus, setStockStatus] = useState("");
   const [assetType, setAssetType] = useState("");
   const [sortOrder, setSortOrder] = useState("");
 
-  const { data: assets = [], isLoading } = useQuery({
+  const {
+    data: assets = [],
+    isLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["asset", searchQuery, stockStatus, assetType, sortOrder],
     queryFn: async () => {
       const { data } = await axiosCommon.get("/assets", {
@@ -30,6 +35,26 @@ const AssetList = () => {
 
   const handleSearch = () => {
     setSearchQuery(searchInput);
+  };
+
+  const { mutateAsync } = useMutation({
+    mutationFn: async (id) => {
+      const { data } = await axiosCommon.delete(`/asset/${id}`);
+      return data;
+    },
+    onSuccess: (data) => {
+      console.log(data);
+      refetch();
+      toast.success("Item deleted successfully");
+    },
+  });
+
+  const handelDelete = async (id) => {
+    try {
+      await mutateAsync(id);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   if (isLoading) return <LoadingSpinner />;
@@ -156,8 +181,15 @@ const AssetList = () => {
                           {new Date(asset.addTime).toLocaleDateString()}
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button className="btn bg-green-400">Update</button>
-                          <button className="btn bg-red-500 ml-3">Delete</button>
+                          <Link to={`/dashboard/update/${asset._id}`}>
+                            <button className="btn bg-green-400">Update</button>
+                          </Link>
+                          <button
+                            onClick={() => handelDelete(asset._id)}
+                            className="btn bg-red-500 ml-3"
+                          >
+                            Delete
+                          </button>
                         </td>
                       </tr>
                     ))}

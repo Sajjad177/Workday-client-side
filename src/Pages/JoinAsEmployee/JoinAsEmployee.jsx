@@ -23,9 +23,6 @@ const JoinAsEmployee = () => {
     try {
       const result = await createUser(email, password);
       console.log(result);
-      // await updateUserProfile(name, photo);
-      // setUser({ ...result?.user, photoURL: photo, displayName: name });
-      // navigate(from, { replace: true });
       toast.success("Sign In successfully");
     } catch {
       toast.error("Invalid Check again");
@@ -36,7 +33,6 @@ const JoinAsEmployee = () => {
     setLoading(true);
     try {
       await signInWithGoogle();
-      // navigate(from);
       toast.success("Sign up successfully");
     } catch (error) {
       console.log(error);

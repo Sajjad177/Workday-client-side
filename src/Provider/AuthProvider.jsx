@@ -10,6 +10,7 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
+// import axios from "axios";
 
 export const AuthContext = createContext(null);
 
@@ -46,7 +47,17 @@ const AuthProvider = ({ children }) => {
     });
   };
 
+  // I want to send users to the database from here, no matter how the user comes, the user should be saved in the database
 
+  // const saveUser = async (user) => {
+  //   const currentUser = {
+  //     email: user?.email,
+  //     role: "employee",
+  //     status: "verified",
+  //   };
+  //   const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user`, currentUser);
+  //   return data;
+  // };
 
 
   useEffect(() => {
@@ -54,7 +65,7 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser) {
         // getToken(currentUser.email);
-        
+        // saveUser()
       }
       setLoading(false);
     });
