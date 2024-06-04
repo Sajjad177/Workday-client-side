@@ -3,11 +3,17 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import useAuth from "../../Hook/useAuth";
 import toast from "react-hot-toast";
+import useAxiosCommon from "../../Hook/useAxiosCommon";
+import { useNavigate } from "react-router-dom";
+import { FcUpload } from "react-icons/fc";
+import { imageUpload } from "../../utils/index";
 
 const JoinAsEmployee = () => {
+  const navigate = useNavigate()
+  const axiosCommon = useAxiosCommon();
   const [startDate, setStartDate] = useState(new Date());
-  const { signInWithGoogle, createUser, setLoading} =
-    useAuth();
+  const { signInWithGoogle, createUser, setLoading, updateUserProfile } = useAuth();
+  const [showName, setShowName] = useState({});
 
   const handelSubmit = async (e) => {
     e.preventDefault();
@@ -16,31 +22,56 @@ const JoinAsEmployee = () => {
     const name = form.name.value;
     const password = form.password.value;
     const dateOfBirth = startDate;
-
-    const asEmployee = (name, email, dateOfBirth, password);
-    console.log(asEmployee);
+    const photo = form.photo.files[0];
 
     try {
+      setLoading(true);
       const result = await createUser(email, password);
+      const image_url = await imageUpload(photo);
+
+      const asEmployee = {
+        name,
+        email,
+        dateOfBirth,
+        photo:image_url,
+        role: "employee",
+      };
+
+      // Save user information in the database
+      await axiosCommon.post("/users", asEmployee);
+      await updateUserProfile(name, image_url);
       console.log(result);
-      toast.success("Sign In successfully");
-    } catch {
-      toast.error("Invalid Check again");
+      toast.success("Sign up successfully");
+      navigate("/")
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    } finally {
+      setLoading(false);
     }
+
   };
 
   const handleGoogle = async () => {
     setLoading(true);
     try {
-      await signInWithGoogle();
+      const result = await signInWithGoogle();
+      console.log(result)
+      const asEmployee = {
+        email: result.user.email,
+        name: result.user.displayName,
+        photo:result.user.photoURL,
+        role: "employee"
+      }
+      await axiosCommon.post("/users", asEmployee);
       toast.success("Sign up successfully");
+      navigate("/")
     } catch (error) {
       console.log(error);
       toast.error(error.message);
       setLoading(false);
     }
   };
-
 
   return (
     <div className="container mx-auto lg:my-20 my-14">
@@ -73,6 +104,30 @@ const JoinAsEmployee = () => {
                   name="email"
                   placeholder="Enter your email"
                   className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
+                />
+              </div>
+              <label htmlFor="text" className="block">Photo</label>
+              <div>
+                <label htmlFor="type2-2" className="flex w-full">
+                  <div className="p-3 w-full cursor-pointer pl-10 drop-shadow-lg outline-none border flex items-center gap-5">
+                    <FcUpload className="text-xl"></FcUpload>
+                    Choose File
+                  </div>
+                  <div className="flex w-full max-w-[380px] items-center border-b-[2px] px-2 font-medium text-gray-400">
+                    {showName.name ? showName.name : "No File Chosen"}
+                  </div>
+                </label>
+                <input
+                  onChange={(e) => {
+                    if (e.target.files && e.target.files[0]) {
+                      const imageFile = e.target.files[0];
+                      setShowName(imageFile);
+                    }
+                  }}
+                  className="hidden"
+                  type="file"
+                  name="photo"
+                  id="type2-2"
                 />
               </div>
               <label htmlFor="email" className="block">
@@ -114,7 +169,7 @@ const JoinAsEmployee = () => {
           </div>
           {/* sign with google */}
           <button
-          onClick={handleGoogle}
+            onClick={handleGoogle}
             type="button"
             className="py-2 px-5 mb-4 mt-8 mx-auto block shadow-lg border rounded-md border-black"
           >

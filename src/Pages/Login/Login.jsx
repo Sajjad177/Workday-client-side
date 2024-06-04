@@ -1,8 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../Hook/useAuth";
 import toast from "react-hot-toast";
 
 const Login = () => {
   const { signIn } = useAuth();
+  const navigate = useNavigate()
 
   const handelLogin = async (e) => {
     e.preventDefault();
@@ -14,6 +16,7 @@ const Login = () => {
     try {
       await signIn(email, password);
       toast.success("Login Successfully")
+      navigate("/")
     } catch (error) {
       console.log(error);
       toast.error("Invalid please check again")

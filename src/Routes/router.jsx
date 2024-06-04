@@ -15,6 +15,10 @@ import MyEmployee from "../Pages/Dashboard/Admin/MyEmployee";
 import AddEmployee from "../Pages/Dashboard/Admin/AddEmployee";
 import AllRequest from "../Pages/Dashboard/Admin/AllRequest";
 import UpdateAsset from "../Pages/UpdateAsset/UpdateAsset";
+import Packages from "../Pages/Dashboard/Packages/Packages";
+import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
+import Profile from "../Components/Dashboard/Profile";
+import EmployeeHome from "../Pages/Dashboard/Employee/EmployeeHome";
 
 
 export const router = createBrowserRouter([
@@ -46,6 +50,10 @@ export const router = createBrowserRouter([
       children:[
         // employee
         {
+          path:"employee-home",
+          element:<EmployeeHome></EmployeeHome>
+        },
+        {
           path:"my-assets",
           element:<MyAssets></MyAssets>
         },
@@ -58,6 +66,10 @@ export const router = createBrowserRouter([
           element:<RequestForAsset></RequestForAsset>
         },
         // Admin------------
+        {
+          path:"admin-home",
+          element:<AdminHome></AdminHome>
+        },
         {
           path:"asset-list",
           element:<AssetList></AssetList>
@@ -86,6 +98,14 @@ export const router = createBrowserRouter([
         {
           path:"all-request",
           element:<AllRequest></AllRequest>
+        },
+        {
+          path:"packages",
+          element:<Packages></Packages>
+        },
+        {
+          path:"profile",
+          element:<Profile></Profile>
         },
       ]
     }
