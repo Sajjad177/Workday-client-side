@@ -18,7 +18,7 @@ const Sidebar = () => {
   const { logOut } = useAuth();
   const [isActive, setActive] = useState(false);
   const [role] = useRole();
-  console.log(role);
+  // console.log(role);
 
   const handleToggle = () => {
     setActive(!isActive);
@@ -140,6 +140,7 @@ const Sidebar = () => {
           </NavLink>
           <button
             onClick={logOut}
+            
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
           >
             <GrLogout className="w-5 h-5" />

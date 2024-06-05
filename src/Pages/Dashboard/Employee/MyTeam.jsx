@@ -1,4 +1,31 @@
+
+import { useEffect, useState } from "react";
+import useAuth from "../../../Hook/useAuth";
+import useAxiosCommon from "../../../Hook/useAxiosCommon";
+
 const MyTeam = () => {
+
+  const { user } = useAuth();
+  const axiosCommon = useAxiosCommon();
+  const [teamMembers, setTeamMembers] = useState([]);
+
+  useEffect(() => {
+    const fetchTeamMembers = async () => {
+      try {
+        const response = await axiosCommon(`/team/${user?.email}`);
+        setTeamMembers(response.data);
+      } catch (error) {
+        console.error("Error fetching team members:", error);
+        // Handle error, show a toast message, etc.
+      }
+    };
+
+    fetchTeamMembers();
+  }, [axiosCommon, user?.email]);
+ 
+
+  console.log(teamMembers)
+
   return (
     <div>
         <h1 className="text-4xl text-center mt-14">My Team</h1>

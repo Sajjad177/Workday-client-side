@@ -17,8 +17,9 @@ const Navbar = () => {
     <div>
       <nav className="flex items-center justify-between bg-[#393E46] px-4 py-2 text-white">
         <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl font-semibold text-white transition-all duration-200 hover:scale-110">
-          <h2>Logo</h2>
+          company logo 
         </div>
+        
         <div className="flex items-center justify-between gap-16">
           <ul className="hidden lg:flex md:flex items-center justify-between gap-10">
             <Link to="/" className="group flex cursor-pointer flex-col">
