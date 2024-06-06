@@ -32,7 +32,7 @@ const AddEmployee = () => {
         email: user.email,
         photo: user.photo,
         role: user.role,
-        userEmail: loggedUser.email,
+        workAt: loggedUser.email,
       };
       const { data } = await axiosCommon.post("/team", userInfo);
       return data;

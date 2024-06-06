@@ -6,7 +6,7 @@ import useAuth from "../../../Hook/useAuth";
 
 const AddAsset = () => {
   const { user } = useAuth();
-  console.log(user)
+  // console.log(user)
   const navigate = useNavigate();
   const axiosCommon = useAxiosCommon();
 

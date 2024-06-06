@@ -1,6 +1,17 @@
 import { IoIosSearch } from "react-icons/io";
+import useAllAsset from "../../../Hook/useAllAsset";
+import { useEffect, useState } from "react";
 
 const AllRequest = () => {
+  const assets = useAllAsset();
+  const [assetRequest, setRequestAsset] = useState([]);
+  useEffect(() => {
+    const filteredAsset = assets.filter((asset) => asset.status === "pending");
+    setRequestAsset(filteredAsset);
+  }, [assets]);
+
+  console.log(assetRequest);
+
   return (
     <div>
       <section className="container px-4 mx-auto pt-12">
@@ -10,23 +21,22 @@ const AllRequest = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-            05
+            {assetRequest.length}
           </span>
         </div>
 
         <div className="flex justify-around">
           <div className="max-w-md ">
             <div className="relative flex items-center w-full h-12 rounded-lg focus-within:shadow-lg border bg-white overflow-hidden">
-              <div className="grid place-items-center h-full w-12 text-gray-300">
-                <IoIosSearch className="text-2xl"></IoIosSearch>
-              </div>
-
               <input
-                className="peer h-full w-full outline-none text-sm text-gray-700 pr-2"
+                className="peer ml-3 h-full w-full outline-none text-sm text-gray-700 pr-2"
                 type="text"
                 id="search"
                 placeholder="Search by name"
               />
+              <div className="grid place-items-center h-full w-12 text-gray-300 bg-yellow-300">
+                <IoIosSearch className="text-2xl"></IoIosSearch>
+              </div>
             </div>
           </div>
         </div>
@@ -103,35 +113,40 @@ const AllRequest = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 ">
-                    <tr>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        Build Dynamic Website
-                      </td>
+                    {assetRequest.map((asset) => (
+                      <tr key={asset._id}>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {asset.assetName}
+                        </td>
 
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        Returnable
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        email
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        Name
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        10/04/2024
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        add some node
-                      </td>
-                      <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
-                        Pending
-                      </td>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {asset.category}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {asset.requested_by}
+                        </td>
+                        <td className="px-4 text-red-500 py-4 text-sm  whitespace-nowrap">
+                          {asset.requester_name}
+                          not complete search function
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {new Date(asset.request_date).toLocaleDateString()}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {asset.note}
+                        </td>
+                        <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
+                          {asset.status}
+                        </td>
 
-                      <td className="px-4 py-4 text-sm whitespace-nowrap">
-                        <button>Approve</button>
-                        <button className="ml-2">Reject</button>
-                      </td>
-                    </tr>
+                        <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <button className="btn bg-green-500">Approve</button>
+                          <button className="btn bg-red-600 ml-2">
+                            Reject
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>

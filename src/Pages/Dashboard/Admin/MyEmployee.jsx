@@ -18,6 +18,8 @@ const MyEmployee = () => {
     },
   });
 
+  console.log(teamsInfo)
+
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
       const { data } = await axiosCommon.delete(`/team/${id}`);
