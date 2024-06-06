@@ -18,7 +18,7 @@ const MyEmployee = () => {
     },
   });
 
-  console.log(teamsInfo)
+  // console.log(teamsInfo)
 
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
@@ -29,8 +29,8 @@ const MyEmployee = () => {
       refetch()
       toast.success('Removed from list')
     },
-    onError: (error) => {
-      console.error("Error removing from team:", error);
+    onError: () => {
+      
       toast.error("Please check again")
     },
   });
