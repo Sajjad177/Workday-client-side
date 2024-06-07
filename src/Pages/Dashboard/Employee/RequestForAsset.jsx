@@ -326,10 +326,9 @@ const RequestForAsset = () => {
         <div className="flex justify-center items-center gap-x-3 mb-10">
           <h2 className="text-lg lg:text-3xl font-medium text-gray-800 ">
             Request For Assets
-            <p className="text-red-600">Quantity -1 problem there</p>
           </h2>
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-            05
+            {assets.length}
           </span>
         </div>
 

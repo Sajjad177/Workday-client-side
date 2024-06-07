@@ -16,6 +16,8 @@ const MyTeam = () => {
     },
   });
 
+  
+
   const { data: teams } = useQuery({
     queryKey: ["teams"],
     queryFn: async () => {
@@ -29,7 +31,7 @@ const MyTeam = () => {
     <div>
       <h1 className="text-4xl text-center mt-14">My Team</h1>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
-        {teams.map((team) => (
+        {teams?.map((team) => (
           <div
             key={team._id}
             className="mx-auto my-20 max-w-[350px] space-y-8 rounded-2xl bg-white px-6 py-8 shadow-md border md:max-w-[350px]"
