@@ -70,10 +70,10 @@ const AddEmployee = () => {
   if (isLoading) return <LoadingSpinner></LoadingSpinner>
 
   return (
-    <div>
-      <h1 className="text-3xl text-center mb-20 mt-10">Add Employee</h1>
+    <div className="container mx-auto">
+      <h1 className="lg:text-4xl text-2xl font-bold border-b-2 border-dashed pb-10 text-center mb-20 mt-10 font-vietnam">Add Employee</h1>
       <div>
-        <h4>Total Employees: {userData.length}</h4>
+        
       </div>
       <div className="overflow-x-auto">
         <table className="table">

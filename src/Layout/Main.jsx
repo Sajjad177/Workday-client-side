@@ -5,10 +5,9 @@ import Navbar from "../Components/Navbar/Navbar";
 
 const Main = () => {
   return (
-    <div>
+    <div className="font-vietnam">
       <Navbar></Navbar>
       <Outlet></Outlet>
-      
     </div>
   );
 };
