@@ -1,3 +1,4 @@
+
 import { IoIosSearch } from "react-icons/io";
 import useAllAsset from "../../../Hook/useAllAsset";
 import { useEffect, useState } from "react";
@@ -5,12 +6,17 @@ import { useEffect, useState } from "react";
 const AllRequest = () => {
   const assets = useAllAsset();
   const [assetRequest, setRequestAsset] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+
   useEffect(() => {
     const filteredAsset = assets.filter((asset) => asset.status === "pending");
     setRequestAsset(filteredAsset);
   }, [assets]);
 
-  console.log(assetRequest);
+  // Filter assetRequest based on search query
+  const filteredRequests = assetRequest.filter((asset) =>
+    asset.assetName.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <div>
@@ -21,7 +27,7 @@ const AllRequest = () => {
           </h2>
 
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-            {assetRequest.length}
+            {filteredRequests.length}
           </span>
         </div>
 
@@ -33,6 +39,8 @@ const AllRequest = () => {
                 type="text"
                 id="search"
                 placeholder="Search by name"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
               <div className="grid place-items-center h-full w-12 text-gray-300 bg-yellow-300">
                 <IoIosSearch className="text-2xl"></IoIosSearch>
@@ -41,8 +49,7 @@ const AllRequest = () => {
           </div>
         </div>
 
-        {/* table is blow */}
-
+        {/* table is below */}
         <div className="flex flex-col mt-6">
           <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -58,14 +65,12 @@ const AllRequest = () => {
                           <span>Name</span>
                         </div>
                       </th>
-
                       <th
                         scope="col"
                         className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
                       >
                         <span>Type</span>
                       </th>
-
                       <th
                         scope="col"
                         className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500"
@@ -106,19 +111,17 @@ const AllRequest = () => {
                           <span>Status</span>
                         </button>
                       </th>
-
                       <th className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
                         Actions
                       </th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200 ">
-                    {assetRequest.map((asset) => (
+                    {filteredRequests.map((asset) => (
                       <tr key={asset._id}>
                         <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                           {asset.assetName}
                         </td>
-
                         <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                           {asset.category}
                         </td>
@@ -137,7 +140,6 @@ const AllRequest = () => {
                         <td className="px-4 py-4 text-sm text-gray-500  whitespace-nowrap">
                           {asset.status}
                         </td>
-
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
                           <button className="btn bg-green-500">Approve</button>
                           <button className="btn bg-red-600 ml-2">
