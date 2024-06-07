@@ -35,6 +35,7 @@ const JoinAsEmployee = () => {
         dateOfBirth,
         photo:image_url,
         role: "employee",
+        workAt: null,
       };
 
       // Save user information in the database

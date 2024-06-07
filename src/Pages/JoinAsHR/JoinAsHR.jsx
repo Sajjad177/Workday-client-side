@@ -45,7 +45,7 @@ const JoinAsHR = () => {
         category,
         dateOfBirth,
         companyLogo: image_url,
-        // image: userImage,
+        workAt: true,
         role: "admin",
       };
 

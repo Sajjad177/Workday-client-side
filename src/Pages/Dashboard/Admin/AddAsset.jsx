@@ -25,7 +25,7 @@ const AddAsset = () => {
     e.preventDefault();
     const form = e.target;
     const assetName = form.asset.value;
-    const quantity = form.quantity.value;
+    const quantity = parseInt(form.quantity.value);
     const category = form.category.value;
     const addTime = new Date().toISOString();
 
