@@ -37,14 +37,7 @@ const MyTeam = () => {
             className="mx-auto my-20 max-w-[350px] space-y-8 rounded-2xl bg-white px-6 py-8 shadow-md border md:max-w-[350px]"
           >
             {/* profile image & bg  */}
-            <div className="relative ">
-              <img
-                width={350}
-                height={150}
-                className="h-[150px] w-[350px] rounded-2xl bg-gray-500"
-                src="https://source.unsplash.com/350x150/?northern lights"
-                alt="card navigate ui"
-              />
+            <div className="relative w-80">
               <img
                 width={100}
                 height={100}

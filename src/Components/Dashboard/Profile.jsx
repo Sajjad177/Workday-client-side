@@ -1,12 +1,44 @@
 import { useState } from "react";
-import useAuth from "../../Hook/useAuth";
+// import useAuth from "../../Hook/useAuth";
 import { FcUpload } from "react-icons/fc";
+import { imageUpload } from "../../utils/index";
+import useAxiosCommon from "../../Hook/useAxiosCommon";
+import useSingleUser from "../../Hook/useSingleUser";
 
 const Profile = () => {
-  const { user } = useAuth();
-  console.log(user);
+  // const { user } = useAuth();
+  const singleUser = useSingleUser();
+  console.log(singleUser);
+  const axiosCommon = useAxiosCommon();
   const [openModal, setOpenModal] = useState(false);
   const [showName, setShowName] = useState({});
+
+  const handelUpdate = async (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const name = form.name.value;
+    const image = form.image.files[0];
+    console.log(name, image);
+
+    try {
+      const image_url = await imageUpload(image);
+
+      const updateInfo = {
+        name,
+        image: image_url,
+      };
+
+      const { data } = await axiosCommon.put(
+        `/update-profile/${singleUser._id}`,
+        updateInfo
+      );
+
+      console.log('Updated data is ########--->',data)
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -16,23 +48,19 @@ const Profile = () => {
           width={200}
           height={200}
           className="h-[320px] w-[350px] rounded-full object-cover"
-          //   src={user?.photoURL}
-          src="https://source.unsplash.com/200x200/?bed"
-          alt="card navigate ui"
+          src={singleUser?.image ? singleUser?.image : "path/to/default/icon.png"}
+          alt=""
         />
         <div className="grid gap-2">
           <h1 className="text-lg font-semibold text-center">
-            {user?.displayName}
+            {singleUser?.name ? singleUser?.name : "Name not added"}
           </h1>
-          <p>Email : {user?.email} </p>
+          {/* <h1 className="text-lg font-semibold text-center">
+            {user?.displayName ? user?.displayName : "Name not added" }
+          </h1> */}
+          <p>Email : {singleUser?.email} </p>
         </div>
         <div className="flex justify-between">
-          {/* <button className="rounded-lg bg-slate-800 px-6 py-2 text-[12px] font-semibold text-white duration-300 hover:bg-slate-950 sm:text-sm md:text-base ">
-            update
-          </button> */}
-          {/* <button className="btn rounded-md border border-black px-4 dark:border-white dark:hover:text-slate-800 dark:hover:bg-white  py-2  duration-300 hover:bg-gray-200">
-            Edit
-          </button> */}
           <div className="mx-auto flex w-72 items-center justify-center">
             <button
               onClick={() => setOpenModal(true)}
@@ -54,17 +82,21 @@ const Profile = () => {
                     : "-translate-y-20 opacity-0 duration-150"
                 }`}
               >
-                <form className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10">
+                <form
+                  onSubmit={handelUpdate}
+                  className="px-5 pb-5 pt-3 lg:pb-10 lg:pt-5 lg:px-10"
+                >
                   <div className="space-y-5">
                     <label htmlFor="email_navigate_ui_modal" className="block">
                       Name
                     </label>
                     <div className="relative">
                       <input
-                        id="email_navigate_ui_modal"
-                        type="email"
+                        id=""
+                        type="text"
+                        name="name"
                         placeholder="Update your name..."
-                        className="block w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white dark:text-white"
+                        className="block w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
                       />
                     </div>
                     <label htmlFor="text" className="block">
@@ -89,14 +121,14 @@ const Profile = () => {
                         }}
                         className="hidden"
                         type="file"
-                        name="companyLogo"
+                        name="image"
                         id="type2-2"
                       />
                     </div>
                   </div>
                   {/* button type will be submit for handling form submission*/}
                   <button
-                    type="button"
+                    type="submit"
                     onClick={() => setOpenModal(false)}
                     className="relative py-2.5 px-5 rounded-lg mt-6 bg-white drop-shadow-lg hover:bg-gray-300 "
                   >

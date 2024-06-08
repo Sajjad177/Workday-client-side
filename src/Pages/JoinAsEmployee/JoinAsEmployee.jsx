@@ -33,7 +33,7 @@ const JoinAsEmployee = () => {
         name,
         email,
         dateOfBirth,
-        photo:image_url,
+        image:image_url,
         role: "employee",
         workAt: null,
       };

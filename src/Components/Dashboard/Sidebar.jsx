@@ -1,27 +1,20 @@
-import { FcHome } from "react-icons/fc";
-import { FaUsers } from "react-icons/fa";
-import { AiOutlineBars, AiOutlineUsergroupAdd } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
-import { FaClipboardList } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
-import { MdChecklist } from "react-icons/md";
+import { AiOutlineBars } from "react-icons/ai";
 import { FaHome } from "react-icons/fa";
-
 import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
 import { FcSettings } from "react-icons/fc";
-import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hook/useAuth";
 import useRole from "../../Hook/useRole";
 import MenuItem from "../Menu/MenuItem";
 import AdminMenu from "../Menu/AdminMenu";
 import EmployeeMenu from "../Menu/EmployeeMenu";
+import useSingleUser from "../../Hook/useSingleUser";
 
 const Sidebar = () => {
-  const { logOut } = useAuth();
+  const { logOut, user } = useAuth();
+  const singleUser = useSingleUser();
   const [isActive, setActive] = useState(false);
   const [role] = useRole();
-  // console.log(role);
 
   const handleToggle = () => {
     setActive(!isActive);
@@ -61,7 +54,7 @@ const Sidebar = () => {
               <div className="relative group">
                 <img
                   className="size-[110px] bg-slate-500 object-cover rounded-full"
-                  src="https://source.unsplash.com/300x300/?profile"
+                  src={singleUser.image}
                   alt="avatar navigate ui"
                 />
                 <span className="size-5 bg-green-500 absolute rounded-full bottom-3 right-0 border-[3px] border-white"></span>
@@ -69,11 +62,10 @@ const Sidebar = () => {
               </div>
             </div>
           </div>
+          <h5 className="text-center font-semibold">{singleUser?.name}</h5>
 
           {/* Nav Items */}
           <div className="flex flex-col justify-between flex-1 mt-6">
-            {/* Conditional toggle button here.. */}
-
             {role === "employee" && <EmployeeMenu></EmployeeMenu>}
 
             {role === "admin" && <AdminMenu></AdminMenu>}

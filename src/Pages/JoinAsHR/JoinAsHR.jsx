@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -11,8 +10,8 @@ import useAxiosCommon from "../../Hook/useAxiosCommon.jsx";
 
 const JoinAsHR = () => {
   const axiosCommon = useAxiosCommon();
-  const navigate = useNavigate()
-  const { setLoading, createUser} = useAuth();
+  const navigate = useNavigate();
+  const { setLoading, createUser } = useAuth();
   const [startDate, setStartDate] = useState(new Date());
   const [showName, setShowName] = useState({});
 
@@ -26,16 +25,12 @@ const JoinAsHR = () => {
     const dateOfBirth = startDate;
     const password = form.password.value;
     const companyLogo = form.companyLogo.files[0];
-    // const image = form.image.files[0];
 
     try {
       setLoading(true);
 
-      // Upload image to ImgBB
       const image_url = await imageUpload(companyLogo);
-      // const userImage = await imageUpload(image );
 
-      // Create user in Firebase
       const result = await createUser(email, password);
 
       const userInfo = {
@@ -45,33 +40,34 @@ const JoinAsHR = () => {
         category,
         dateOfBirth,
         companyLogo: image_url,
-        workAt: true,
         role: "admin",
       };
 
-      // Save user information in the database
       await axiosCommon.post("/users", userInfo);
-      // await updateUserProfile(name, userImage);
+
       console.log(result);
       toast.success("Sign up successfully");
-      navigate("/")
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      
       toast.error(error.message);
     } finally {
       setLoading(false);
     }
   };
 
-
   return (
     <div className="container mx-auto lg:my-20 my-14">
       <div className="w-full mx-auto lg:w-[500px] drop-shadow-lg bg-white">
-        <h1 className="backdrop-blur-sm text-4xl pb-8 text-center font-bold">Join As HR/Admin</h1>
+        <h1 className="backdrop-blur-sm text-4xl pb-8 text-center font-bold">
+          Join As HR/Admin
+        </h1>
         <form onSubmit={handelSignUp}>
           <div className="p-12">
             <div className="space-y-5">
-              <label htmlFor="text" className="block">Name</label>
+              <label htmlFor="text" className="block">
+                Name
+              </label>
               <div className="relative">
                 <input
                   id="Name"
@@ -81,7 +77,9 @@ const JoinAsHR = () => {
                   className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
                 />
               </div>
-              <label htmlFor="text" className="block">Company Name</label>
+              <label htmlFor="text" className="block">
+                Company Name
+              </label>
               <div className="relative">
                 <input
                   id="Name"
@@ -91,7 +89,9 @@ const JoinAsHR = () => {
                   className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
                 />
               </div>
-              <label htmlFor="text" className="block">Company Logo</label>
+              <label htmlFor="text" className="block">
+                Company Logo
+              </label>
               <div>
                 <label htmlFor="type2-2" className="flex w-full">
                   <div className="p-3 w-full cursor-pointer pl-10 drop-shadow-lg outline-none border flex items-center gap-5">
@@ -115,31 +115,10 @@ const JoinAsHR = () => {
                   id="type2-2"
                 />
               </div>
-              {/* <label htmlFor="text" className="block">User Image</label>
-              <div>
-                <label htmlFor="type2-2" className="flex w-full">
-                  <div className="p-3 w-full cursor-pointer pl-10 drop-shadow-lg outline-none border flex items-center gap-5">
-                    <FcUpload className="text-xl"></FcUpload>
-                    Choose File
-                  </div>
-                  <div className="flex w-full max-w-[380px] items-center border-b-[2px] px-2 font-medium text-gray-400">
-                    {showName.name ? showName.name : "No File Chosen"}
-                  </div>
-                </label>
-                <input
-                  onChange={(e) => {
-                    if (e.target.files && e.target.files[0]) {
-                      const imageFile = e.target.files[0];
-                      setShowName(imageFile);
-                    }
-                  }}
-                  className="hidden"
-                  type="file"
-                  name="image"
-                  id="type2-2"
-                />
-              </div> */}
-              <label htmlFor="email" className="block">Email</label>
+
+              <label htmlFor="email" className="block">
+                Email
+              </label>
               <div className="relative">
                 <input
                   id="email"
@@ -159,7 +138,9 @@ const JoinAsHR = () => {
                 <option value="10_member">10 Member for $ 10</option>
                 <option value="15_member">15 Member for $ 15</option>
               </select>
-              <label htmlFor="email" className="block">Date of birth</label>
+              <label htmlFor="email" className="block">
+                Date of birth
+              </label>
               <div className="relative w-full">
                 <DatePicker
                   className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
@@ -167,7 +148,9 @@ const JoinAsHR = () => {
                   onChange={(date) => setStartDate(date)}
                 />
               </div>
-              <label htmlFor="password" className="block">Password</label>
+              <label htmlFor="password" className="block">
+                Password
+              </label>
               <div className="relative">
                 <input
                   id="pass"
