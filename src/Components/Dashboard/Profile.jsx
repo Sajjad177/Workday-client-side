@@ -4,6 +4,7 @@ import { imageUpload } from "../../utils/index";
 import useAxiosCommon from "../../Hook/useAxiosCommon";
 import useSingleUser from "../../Hook/useSingleUser";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const singleUser = useSingleUser();
@@ -41,6 +42,9 @@ const Profile = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>WorkDay / Profile</title>
+      </Helmet>
       <h1 className="text-4xl text-center mt-10 font-bold"> Your Profile </h1>
       <div className="mx-auto max-w-[350px] space-y-4 rounded-lg bg-white p-6 shadow-lg md:w-[350px] border mt-20">
         <img

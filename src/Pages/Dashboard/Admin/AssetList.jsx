@@ -5,6 +5,7 @@ import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 
 const AssetList = () => {
   const axiosCommon = useAxiosCommon();
@@ -61,6 +62,9 @@ const AssetList = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>WorkDay / Asset List</title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-12">
         <div className="flex justify-center items-center gap-x-3 mb-10">
           <h2 className="text-lg lg:text-3xl font-medium text-gray-800 ">

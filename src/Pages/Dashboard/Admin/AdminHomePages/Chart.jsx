@@ -3,7 +3,10 @@
 const Chart = () => {
     return (
         <div>
-            chart44444444444444
+            <h1 className="lg:text-4xl text-2xl text-center font-bold">Chart</h1>
+            <div>
+                
+            </div>
         </div>
     );
 };

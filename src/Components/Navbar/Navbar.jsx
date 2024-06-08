@@ -2,11 +2,14 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import useAuth from "../../Hook/useAuth";
-import avatarImg from "../../assets/avatar2.png"
-
+import avatarImg from "../../assets/avatar2.png";
+import logo from "../../assets/logo.avif";
+import useSingleUser from "../../Hook/useSingleUser";
 
 const Navbar = () => {
-  const {user, logOut} = useAuth()
+  const { user, logOut } = useAuth();
+  const singleUser = useSingleUser();
+  console.log(singleUser);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClick = () => {
@@ -17,9 +20,20 @@ const Navbar = () => {
     <div>
       <nav className="flex items-center justify-between bg-[#393E46] px-4 py-2 text-white">
         <div className="scale-100 cursor-pointer rounded-2xl px-3 py-2 text-xl font-semibold text-white transition-all duration-200 hover:scale-110">
-          company logo 
+          <Link to="/">
+            <img
+              className="rounded-full h-16 w-16"
+              referrerPolicy="no-referrer"
+              src={
+                singleUser && singleUser.companyLogo
+                  ? singleUser.companyLogo
+                  : logo
+              }
+              alt="profile"
+            />
+          </Link>
         </div>
-        
+
         <div className="flex items-center justify-between gap-16">
           <ul className="hidden lg:flex md:flex items-center justify-between gap-10">
             <Link to="/" className="group flex cursor-pointer flex-col">
@@ -52,7 +66,11 @@ const Navbar = () => {
                     <img
                       className="rounded-full"
                       referrerPolicy="no-referrer"
-                      src={user && user.photoURL ? user.photoURL : avatarImg}
+                      src={
+                        singleUser && singleUser?.image
+                          ? singleUser?.image
+                          : avatarImg
+                      }
                       alt="profile"
                       height="30"
                       width="30"
@@ -84,7 +102,7 @@ const Navbar = () => {
                     >
                       Join As HR/Admin
                     </Link>
-                    
+
                     {user ? (
                       <>
                         <Link

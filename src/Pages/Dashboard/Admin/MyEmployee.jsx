@@ -4,6 +4,7 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import useAuth from "../../../Hook/useAuth";
 import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 
 const MyEmployee = () => {
@@ -45,6 +46,9 @@ const MyEmployee = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>WorkDay / My Employee List</title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-12">
         <div className="flex justify-center items-center gap-x-3 mb-10">
           <h2 className="text-lg lg:text-3xl font-medium text-gray-800 ">

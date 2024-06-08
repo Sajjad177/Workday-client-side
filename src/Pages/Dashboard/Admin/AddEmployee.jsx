@@ -5,6 +5,7 @@ import useAuth from "../../../Hook/useAuth";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import useSingleUser from "../../../Hook/useSingleUser";
+import { Helmet } from "react-helmet-async";
 
 const AddEmployee = () => {
   const { user: loggedUser } = useAuth();
@@ -27,7 +28,7 @@ const AddEmployee = () => {
     },
   });
 
-  console.log(userData)
+  console.log(userData);
 
   const { data: teamData = [], isLoading: isTeamLoading } = useQuery({
     queryKey: ["team"],
@@ -44,7 +45,6 @@ const AddEmployee = () => {
         email: userData.email,
         image: userData.image,
         role: userData.role,
-        // ...userData,
         workAt: loggedUser.email,
         team: true,
       };
@@ -87,73 +87,78 @@ const AddEmployee = () => {
   const employeeCount = teamData.length;
 
   return (
-    <div className="container mx-auto mt-16">
-      <div className="flex justify-center items-center gap-x-3 mb-10">
-        <h2 className="lg:text-4xl text-2xl font-medium text-gray-800 ">
-          Add Employee
-        </h2>
-        <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-          {userData.length}
-        </span>
-      </div>
-      <div className="mb-6 flex items-center justify-around">
-        <h3 className="text-lg font-semibold">
-          Employee Count: {employeeCount} / {price}
-        </h3>
-        
-        <Link to="/dashboard/packages">
-          <button className="btn ">Increase the Limit</button>
-        </Link>
-      </div>
-      <div className="overflow-x-auto">
-        <table className="table">
-          <thead>
-            <tr>
-              <th>
-                <label>
-                  <input disabled type="checkbox" className="checkbox" />
-                </label>
-              </th>
-              <th>Image</th>
-              <th>Employee Name</th>
-              <th>Type</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userData.map((user) => (
-              <tr key={user._id}>
+    <div>
+      <Helmet>
+        <title>WorkDay / Add Employee</title>
+      </Helmet>
+      <div className="container mx-auto mt-16">
+        <div className="flex justify-center items-center gap-x-3 mb-10">
+          <h2 className="lg:text-4xl text-2xl font-medium text-gray-800 ">
+            Add Employee
+          </h2>
+          <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
+            {userData.length}
+          </span>
+        </div>
+        <div className="mb-6 flex items-center justify-around">
+          <h3 className="text-lg font-semibold">
+            Employee Count: {employeeCount} / {price - employeeCount}
+          </h3>
+
+          <Link to="/dashboard/packages">
+            <button className="btn ">Increase the Limit</button>
+          </Link>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="table">
+            <thead>
+              <tr>
                 <th>
                   <label>
-                    <input type="checkbox" className="checkbox" />
+                    <input disabled type="checkbox" className="checkbox" />
                   </label>
                 </th>
-                <td>
-                  <div className="flex items-center gap-3">
-                    <div className="avatar">
-                      <div className="mask rounded-full w-12 h-12">
-                        <img src={user?.image} alt={user.name}></img>
+                <th>Image</th>
+                <th>Employee Name</th>
+                <th>Type</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userData.map((user) => (
+                <tr key={user._id}>
+                  <th>
+                    <label>
+                      <input type="checkbox" className="checkbox" />
+                    </label>
+                  </th>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="avatar">
+                        <div className="mask rounded-full w-12 h-12">
+                          <img src={user?.image} alt={user.name}></img>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td>{user.name}</td>
-                <td>{user.role}</td>
-                <th>
-                  <button
-                    onClick={() => handledAddTeam(user)}
-                    className="btn bg-yellow-500"
-                    disabled={price <= 0}
-                  >
-                    Add To Team
-                  </button>
-                </th>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                  </td>
+                  <td>{user.name}</td>
+                  <td>{user.role}</td>
+                  <th>
+                    <button
+                      onClick={() => handledAddTeam(user)}
+                      className="btn bg-yellow-500"
+                      disabled={price <= 0}
+                    >
+                      Add To Team
+                    </button>
+                  </th>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <button className="btn mt-16">Add Selected Member</button>
       </div>
-      <button className="btn mt-16">Add Selected Member</button>
     </div>
   );
 };

@@ -9,6 +9,7 @@ import MenuItem from "../Menu/MenuItem";
 import AdminMenu from "../Menu/AdminMenu";
 import EmployeeMenu from "../Menu/EmployeeMenu";
 import useSingleUser from "../../Hook/useSingleUser";
+import avatarImg from "../../assets/avatar2.png"
 
 const Sidebar = () => {
   const { logOut } = useAuth();
@@ -54,7 +55,8 @@ const Sidebar = () => {
               <div className="relative group">
                 <img
                   className="size-[110px] bg-slate-500 object-cover rounded-full"
-                  src={singleUser?.image ? singleUser?.image : "https://ibb.co/CQ4FMZZ"}
+                  // src={singleUser?.image ? singleUser?.image : "https://ibb.co/CQ4FMZZ"}
+                  src={singleUser && singleUser.image ? singleUser.image : avatarImg}
                   alt="avatar navigate ui"
                 />
                 <span className="size-5 bg-green-500 absolute rounded-full bottom-3 right-0 border-[3px] border-white"></span>

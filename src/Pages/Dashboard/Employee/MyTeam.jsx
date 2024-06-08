@@ -1,6 +1,7 @@
 import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import useAuth from "../../../Hook/useAuth";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet-async";
 
 const MyTeam = () => {
   const axiosCommon = useAxiosCommon();
@@ -29,6 +30,9 @@ const MyTeam = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>WorkDay / My Team</title>
+      </Helmet>
       <h1 className="text-4xl text-center mt-14">My Team</h1>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1">
         {teams?.map((team) => (

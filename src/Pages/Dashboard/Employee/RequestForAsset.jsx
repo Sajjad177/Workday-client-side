@@ -267,6 +267,7 @@ import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import useAuth from "../../../Hook/useAuth";
+import { Helmet } from "react-helmet-async";
 
 const RequestForAsset = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -322,6 +323,9 @@ const RequestForAsset = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>WorkDay / Request For Asset</title>
+      </Helmet>
       <section className="container px-4 mx-auto pt-12">
         <div className="flex justify-center items-center gap-x-3 mb-10">
           <h2 className="text-lg lg:text-3xl font-medium text-gray-800 ">
