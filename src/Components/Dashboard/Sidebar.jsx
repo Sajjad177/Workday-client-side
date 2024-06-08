@@ -5,6 +5,7 @@ import { CgProfile } from "react-icons/cg";
 import { FaClipboardList } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { MdChecklist } from "react-icons/md";
+import { FaHome } from "react-icons/fa";
 
 import { useState } from "react";
 import { GrLogout } from "react-icons/gr";
@@ -12,7 +13,9 @@ import { FcSettings } from "react-icons/fc";
 import { Link, NavLink } from "react-router-dom";
 import useAuth from "../../Hook/useAuth";
 import useRole from "../../Hook/useRole";
-
+import MenuItem from "../Menu/MenuItem";
+import AdminMenu from "../Menu/AdminMenu";
+import EmployeeMenu from "../Menu/EmployeeMenu";
 
 const Sidebar = () => {
   const { logOut } = useAuth();
@@ -29,7 +32,10 @@ const Sidebar = () => {
       {/* Small Screen Navbar */}
       <div className="bg-gray-100 text-gray-800 flex justify-between md:hidden">
         <div>
-          <div className="flex items-center flex-wrap justify-around" id="_ActiveAvatar_NavigateUI"></div>
+          <div
+            className="flex items-center flex-wrap justify-around"
+            id="_ActiveAvatar_NavigateUI"
+          ></div>
         </div>
 
         <button
@@ -48,7 +54,10 @@ const Sidebar = () => {
       >
         <div>
           <div>
-            <div className="flex items-center flex-wrap justify-around" id="_ActiveAvatar_NavigateUI">
+            <div
+              className="flex items-center flex-wrap justify-around"
+              id="_ActiveAvatar_NavigateUI"
+            >
               <div className="relative group">
                 <img
                   className="size-[110px] bg-slate-500 object-cover rounded-full"
@@ -65,82 +74,29 @@ const Sidebar = () => {
           <div className="flex flex-col justify-between flex-1 mt-6">
             {/* Conditional toggle button here.. */}
 
-            {role === "employee" && (
-              <>
-                <p className="text-red-600">Employee section-----</p>
-                <Link to="employee-home">
-                  <button className="btn">Employee Home</button>
-                </Link>
-                <Link to="my-assets">
-                  <button className="btn">My Assets</button>
-                </Link>
-                <Link to="my-team">
-                  <button className="btn">My Team</button>
-                </Link>
-                <Link to="request-asset">
-                  <button className="btn">Request For Assets</button>
-                </Link>
-                {/* custom request add later */}
-              </>
-            )}
+            {role === "employee" && <EmployeeMenu></EmployeeMenu>}
 
-            {role === "admin" && (
-              <>
-                <p className="text-red-600">Admin section-----</p>
-                <Link to="/dashboard/admin-home">
-                  <button className="btn">Dashboard Home</button>
-                </Link>
-                <Link to="asset-list">
-                  <button className="btn"> Assets List</button>
-                </Link>
-                <Link to="my-employee">
-                  <button className="btn">My Employee List</button>
-                </Link>
-                <Link to="all-request">
-                  <button className="btn">All Request</button>
-                </Link>
-                <Link to="custom-request">
-                  <button className="btn">Custom Request</button>
-                </Link>
-                <Link to="add-asset">
-                  <button className="btn">Add Assets</button>
-                </Link>
-                <Link to="add-employee">
-                  <button className="btn">Add Employee</button>
-                </Link>
-              </>
-            )}
+            {role === "admin" && <AdminMenu></AdminMenu>}
           </div>
         </div>
 
         <div>
           <hr />
           {/* Profile Menu */}
-          <NavLink
-            to="/"
-            className={({ isActive }) =>
-              `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
-              }`
-            }
-          >
-            <FcSettings className="w-5 h-5" />
-            <span className="mx-4 font-medium">Home</span>
-          </NavLink>
-          <NavLink
-            to="/dashboard/profile"
-            className={({ isActive }) =>
-              `flex items-center px-4 py-2 my-5  transition-colors duration-300 transform  hover:bg-gray-300   hover:text-gray-700 ${
-                isActive ? "bg-gray-300  text-gray-700" : "text-gray-600"
-              }`
-            }
-          >
-            <FcSettings className="w-5 h-5" />
-            <span className="mx-4 font-medium">Profile</span>
-          </NavLink>
+          <MenuItem
+            label={"Back To Home"}
+            address={"/"}
+            icon={FaHome}
+          ></MenuItem>
+
+          <MenuItem
+            label={"Profile"}
+            address={"/dashboard/profile"}
+            icon={FcSettings}
+          ></MenuItem>
+
           <button
             onClick={logOut}
-            
             className="flex w-full items-center px-4 py-2 mt-5 text-gray-600 hover:bg-gray-300   hover:text-gray-700 transition-colors duration-300 transform"
           >
             <GrLogout className="w-5 h-5" />

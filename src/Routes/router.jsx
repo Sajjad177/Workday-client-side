@@ -19,95 +19,152 @@ import Packages from "../Pages/Dashboard/Packages/Packages";
 import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import Profile from "../Components/Dashboard/Profile";
 import EmployeeHome from "../Pages/Dashboard/Employee/EmployeeHome";
+import PrivateRoute from "./PrivateRoute";
 // import OurPackages from "../Components/OurPackages/OurPackages";
 
-
 export const router = createBrowserRouter([
-    {
-      path: "/",
-      element: <Main></Main>,
-      children:[
-        {
-          path:"/",
-          element:<Home></Home>
-        },
-        {
-          path:"/join-employee",
-          element:<JoinAsEmployee></JoinAsEmployee>
-        },
-        {
-          path:"/join-hr",
-          element:<JoinAsHR></JoinAsHR>
-        },
-        {
-          path:"/login",
-          element:<Login></Login>
-        }
-      ]
-    },
-    {
-      path:"/dashboard",
-      element:<DashboardLayout></DashboardLayout>,
-      children:[
-        // employee
-        {
-          path:"employee-home",
-          element:<EmployeeHome></EmployeeHome>
-        },
-        {
-          path:"my-assets",
-          element:<MyAssets></MyAssets>
-        },
-        {
-          path:"my-team",
-          element:<MyTeam></MyTeam>
-        },
-        {
-          path:"request-asset",
-          element:<RequestForAsset></RequestForAsset>
-        },
-        // Admin------------
-        {
-          path:"admin-home",
-          element:<AdminHome></AdminHome>
-        },
-        {
-          path:"asset-list",
-          element:<AssetList></AssetList>
-        },
-        {
-          path:"add-asset",
-          element:<AddAsset></AddAsset>
-        },
-        {
-          path:"update/:id",
-          element:<UpdateAsset></UpdateAsset>,
-          loader: ({params}) => fetch(`${import.meta.env.VITE_API_URL}/asset/${params.id}`)
-        },
-        {
-          path:"custom-request",
-          element:<CustomRequest></CustomRequest>
-        },
-        {
-          path:"my-employee",
-          element:<MyEmployee></MyEmployee>
-        },
-        {
-          path:"add-employee",
-          element:<AddEmployee></AddEmployee>
-        },
-        {
-          path:"all-request",
-          element:<AllRequest></AllRequest>
-        },
-        {
-          path:"packages",
-          element:<Packages></Packages>
-        },
-        {
-          path:"profile",
-          element:<Profile></Profile>
-        },
-      ]
-    }
-  ]);
+  {
+    path: "/",
+    element: <Main></Main>,
+    children: [
+      {
+        path: "/",
+        element: <Home></Home>,
+      },
+      {
+        path: "/join-employee",
+        element: <JoinAsEmployee></JoinAsEmployee>,
+      },
+      {
+        path: "/join-hr",
+        element: <JoinAsHR></JoinAsHR>,
+      },
+      {
+        path: "/login",
+        element: <Login></Login>,
+      },
+    ],
+  },
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
+      // employee
+      {
+        path: "employee-home",
+        element: (
+          <PrivateRoute>
+            <EmployeeHome></EmployeeHome>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-assets",
+        element: (
+          <PrivateRoute>
+            <MyAssets></MyAssets>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-team",
+        element: (
+          <PrivateRoute>
+            <MyTeam></MyTeam>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "request-asset",
+        element: (
+          <PrivateRoute>
+            <RequestForAsset></RequestForAsset>
+          </PrivateRoute>
+        ),
+      },
+      // Admin------------
+      {
+        path: "admin-home",
+        element: (
+          <PrivateRoute>
+            <AdminHome></AdminHome>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "asset-list",
+        element: (
+          <PrivateRoute>
+            <AssetList></AssetList>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "add-asset",
+        element: (
+          <PrivateRoute>
+            <AddAsset></AddAsset>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "update/:id",
+        element: (
+          <PrivateRoute>
+            <UpdateAsset></UpdateAsset>
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(`${import.meta.env.VITE_API_URL}/asset/${params.id}`),
+      },
+      {
+        path: "custom-request",
+        element: (
+          <PrivateRoute>
+            <CustomRequest></CustomRequest>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "my-employee",
+        element: (
+          <PrivateRoute>
+            <MyEmployee></MyEmployee>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "add-employee",
+        element: (
+          <PrivateRoute>
+            <AddEmployee></AddEmployee>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "all-request",
+        element: (
+          <PrivateRoute>
+            <AllRequest></AllRequest>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "packages",
+        element: (
+          <PrivateRoute>
+            <Packages></Packages>
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "profile",
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+]);
