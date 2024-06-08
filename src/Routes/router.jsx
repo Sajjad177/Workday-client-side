@@ -20,6 +20,7 @@ import AdminHome from "../Pages/Dashboard/Admin/AdminHome";
 import Profile from "../Components/Dashboard/Profile";
 import EmployeeHome from "../Pages/Dashboard/Employee/EmployeeHome";
 import PrivateRoute from "./PrivateRoute";
+import Payment from "../Pages/Payment/Payment";
 // import OurPackages from "../Components/OurPackages/OurPackages";
 
 export const router = createBrowserRouter([
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login></Login>,
+      },
+      {
+        path: "/payment",
+        element: <Payment></Payment>,
       },
     ],
   },

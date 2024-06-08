@@ -47,7 +47,7 @@ const JoinAsHR = () => {
 
       console.log(result);
       toast.success("Sign up successfully");
-      navigate("/");
+      navigate("/payment");
     } catch (error) {
       
       toast.error(error.message);

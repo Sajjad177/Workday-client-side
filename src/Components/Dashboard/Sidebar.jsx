@@ -11,7 +11,7 @@ import EmployeeMenu from "../Menu/EmployeeMenu";
 import useSingleUser from "../../Hook/useSingleUser";
 
 const Sidebar = () => {
-  const { logOut, user } = useAuth();
+  const { logOut } = useAuth();
   const singleUser = useSingleUser();
   const [isActive, setActive] = useState(false);
   const [role] = useRole();
@@ -54,7 +54,7 @@ const Sidebar = () => {
               <div className="relative group">
                 <img
                   className="size-[110px] bg-slate-500 object-cover rounded-full"
-                  src={singleUser.image}
+                  src={singleUser?.image ? singleUser?.image : "https://ibb.co/CQ4FMZZ"}
                   alt="avatar navigate ui"
                 />
                 <span className="size-5 bg-green-500 absolute rounded-full bottom-3 right-0 border-[3px] border-white"></span>

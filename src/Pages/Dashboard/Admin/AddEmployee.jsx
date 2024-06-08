@@ -1,15 +1,25 @@
+import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import useAuth from "../../../Hook/useAuth";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
+import useSingleUser from "../../../Hook/useSingleUser";
 
 const AddEmployee = () => {
   const { user: loggedUser } = useAuth();
+  const singleUser = useSingleUser();
+  const admin_package = singleUser?.category;
+  const price = admin_package?.split(".")[0].slice(0, 2) || 0;
+  // console.log(price);
   const axiosCommon = useAxiosCommon();
   const queryClient = useQueryClient();
 
-  const { data: userData = [], isLoading, refetch } = useQuery({
+  const {
+    data: userData = [],
+    isLoading: isUsersLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
       const { data } = await axiosCommon("/users");
@@ -17,7 +27,9 @@ const AddEmployee = () => {
     },
   });
 
-  const { data: teamData = [] } = useQuery({
+  console.log(userData)
+
+  const { data: teamData = [], isLoading: isTeamLoading } = useQuery({
     queryKey: ["team"],
     queryFn: async () => {
       const { data } = await axiosCommon(`/team/${loggedUser.email}`);
@@ -26,14 +38,15 @@ const AddEmployee = () => {
   });
 
   const { mutateAsync } = useMutation({
-    mutationFn: async (user) => {
+    mutationFn: async (userData) => {
       const userInfo = {
-        name: user.name,
-        email: user.email,
-        photo: user.photo,
-        role: user.role,
+        name: userData.name,
+        email: userData.email,
+        image: userData.image,
+        role: userData.role,
+        // ...userData,
         workAt: loggedUser.email,
-        team:true,
+        team: true,
       };
       const { data } = await axiosCommon.post("/team", userInfo);
       return data;
@@ -44,7 +57,7 @@ const AddEmployee = () => {
       );
       queryClient.invalidateQueries(["team"]);
       refetch();
-      toast.success('Added to your team successfully');
+      toast.success("Added to your team successfully");
     },
     onError: (error) => {
       console.error("Error adding to team:", error);
@@ -58,7 +71,9 @@ const AddEmployee = () => {
       return;
     }
 
-    const userAlreadyInTeam = teamData.some((teamMember) => teamMember.email === user.email);
+    const userAlreadyInTeam = teamData.some(
+      (teamMember) => teamMember.email === user.email
+    );
     if (userAlreadyInTeam) {
       toast.error("User is already in your team");
       return;
@@ -67,13 +82,28 @@ const AddEmployee = () => {
     await mutateAsync(user);
   };
 
-  if (isLoading) return <LoadingSpinner></LoadingSpinner>
+  if (isUsersLoading || isTeamLoading) return <LoadingSpinner></LoadingSpinner>;
+
+  const employeeCount = teamData.length;
 
   return (
-    <div className="container mx-auto">
-      <h1 className="lg:text-4xl text-2xl font-bold border-b-2 border-dashed pb-10 text-center mb-20 mt-10 font-vietnam">Add Employee</h1>
-      <div>
+    <div className="container mx-auto mt-16">
+      <div className="flex justify-center items-center gap-x-3 mb-10">
+        <h2 className="lg:text-4xl text-2xl font-medium text-gray-800 ">
+          Add Employee
+        </h2>
+        <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
+          {userData.length}
+        </span>
+      </div>
+      <div className="mb-6 flex items-center justify-around">
+        <h3 className="text-lg font-semibold">
+          Employee Count: {employeeCount} / {price}
+        </h3>
         
+        <Link to="/dashboard/packages">
+          <button className="btn ">Increase the Limit</button>
+        </Link>
       </div>
       <div className="overflow-x-auto">
         <table className="table">
@@ -101,11 +131,8 @@ const AddEmployee = () => {
                 <td>
                   <div className="flex items-center gap-3">
                     <div className="avatar">
-                      <div className="mask mask-squircle w-12 h-12">
-                        <img
-                          src={user.photo}
-                          alt={user.name}
-                        />
+                      <div className="mask rounded-full w-12 h-12">
+                        <img src={user?.image} alt={user.name}></img>
                       </div>
                     </div>
                   </div>
@@ -116,6 +143,7 @@ const AddEmployee = () => {
                   <button
                     onClick={() => handledAddTeam(user)}
                     className="btn bg-yellow-500"
+                    disabled={price <= 0}
                   >
                     Add To Team
                   </button>
@@ -125,10 +153,9 @@ const AddEmployee = () => {
           </tbody>
         </table>
       </div>
+      <button className="btn mt-16">Add Selected Member</button>
     </div>
   );
 };
 
 export default AddEmployee;
-
-

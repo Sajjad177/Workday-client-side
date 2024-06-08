@@ -1,12 +1,11 @@
 import { useState } from "react";
-// import useAuth from "../../Hook/useAuth";
 import { FcUpload } from "react-icons/fc";
 import { imageUpload } from "../../utils/index";
 import useAxiosCommon from "../../Hook/useAxiosCommon";
 import useSingleUser from "../../Hook/useSingleUser";
+import toast from "react-hot-toast";
 
 const Profile = () => {
-  // const { user } = useAuth();
   const singleUser = useSingleUser();
   console.log(singleUser);
   const axiosCommon = useAxiosCommon();
@@ -32,11 +31,11 @@ const Profile = () => {
         `/update-profile/${singleUser._id}`,
         updateInfo
       );
-
-      console.log('Updated data is ########--->',data)
-
+      toast.success("Profile updated successfully");
+      console.log("Updated data is ########--->", data);
     } catch (error) {
       console.log(error);
+      toast.error("Something wrong ❌ check again");
     }
   };
 
@@ -48,16 +47,17 @@ const Profile = () => {
           width={200}
           height={200}
           className="h-[320px] w-[350px] rounded-full object-cover"
-          src={singleUser?.image ? singleUser?.image : "path/to/default/icon.png"}
+          src={singleUser?.image ? singleUser?.image : "https://ibb.co/CQ4FMZZ"}
           alt=""
         />
         <div className="grid gap-2">
-          <h1 className="text-lg font-semibold text-center">
-            {singleUser?.name ? singleUser?.name : "Name not added"}
-          </h1>
-          {/* <h1 className="text-lg font-semibold text-center">
-            {user?.displayName ? user?.displayName : "Name not added" }
-          </h1> */}
+          <div className="flex items-center justify-center gap-3">
+            <h1 className="text-lg font-semibold text-center">
+              {singleUser?.name ? singleUser?.name : "please add your name"}
+            </h1>
+            <p className="text-sm">({singleUser?.role})</p>
+          </div>
+
           <p>Email : {singleUser?.email} </p>
         </div>
         <div className="flex justify-between">
@@ -97,6 +97,7 @@ const Profile = () => {
                         name="name"
                         placeholder="Update your name..."
                         className="block w-full rounded-lg p-3 pl-10 outline-none drop-shadow-lg bg-white"
+                        required
                       />
                     </div>
                     <label htmlFor="text" className="block">
@@ -123,6 +124,7 @@ const Profile = () => {
                         type="file"
                         name="image"
                         id="type2-2"
+                        required
                       />
                     </div>
                   </div>

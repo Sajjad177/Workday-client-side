@@ -20,7 +20,7 @@ const MyEmployee = () => {
     },
   });
 
-  // console.log(teamsInfo)
+  console.log(teamsInfo)
 
   const { mutateAsync } = useMutation({
     mutationFn: async (id) => {
@@ -92,7 +92,7 @@ const MyEmployee = () => {
                       <tr key={team._id}>
                         <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
                           <img
-                            src={team.photo}
+                            src={team.image}
                             alt={team.name}
                             className="w-10 h-10 rounded-full"
                           />
