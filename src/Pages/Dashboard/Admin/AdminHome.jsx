@@ -1,8 +1,10 @@
 
 import Chart from "./AdminHomePages/Chart";
+import Files from "./AdminHomePages/Files";
 import LimitedStock from "./AdminHomePages/LimitedStock";
 import MostRequestItem from "./AdminHomePages/MostRequestItem";
 import PendingRequest from "./AdminHomePages/PendingRequest";
+import Progress from "./AdminHomePages/Progress";
 
 
 const AdminHome = () => {
@@ -13,6 +15,8 @@ const AdminHome = () => {
              <MostRequestItem></MostRequestItem>
              <LimitedStock></LimitedStock>
              <Chart></Chart>
+             <Files></Files>
+             <Progress></Progress>
         </div>
     );
 };

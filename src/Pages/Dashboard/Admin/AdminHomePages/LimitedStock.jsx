@@ -16,15 +16,15 @@ const LimitedStock = () => {
 
 
   return (
-    <div className="container mx-auto lg:my-20 my-14">
-      <h1 className="mb-10 lg:text-4xl text-2xl text-center font-bold">
+    <div className="container mx-auto lg:my-20 my-14 p-3">
+      <h1 className="mb-10 lg:text-4xl text-2xl lg:text-center font-bold">
         Limited Stock
       </h1>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">
+      <div className="grid lg:grid-cols-3 md:grid-cols-1 grid-cols-1 lg:gap-20 gap-10">
         {limited?.map((asset) => (
           <div
             key={asset._id}
-            className="max-w-[350px] space-y-4 rounded-lg bg-white p-6 shadow-lg md:w-[350px] border"
+            className="lg:max-w-[350px] w-full space-y-4 rounded-lg bg-white p-6 shadow-lg md:w-[350px] border"
           >
             <div className="grid gap-2">
               <h1 className="text-lg font-semibold ">{asset?.assetName}</h1>

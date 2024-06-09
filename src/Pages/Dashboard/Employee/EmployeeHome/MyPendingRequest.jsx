@@ -16,8 +16,8 @@ const MyPendingRequest = () => {
   }, [assets, singleUser.email]);
 
   return (
-    <div className="container mx-auto">
-      <h1 className="lg:text-4xl text-2xl text-center my-12 font-bold">
+    <div className="container mx-auto p-3">
+      <h1 className="lg:text-4xl text-2xl lg:text-center my-12 font-bold">
         Pending Request
       </h1>
       <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-10">

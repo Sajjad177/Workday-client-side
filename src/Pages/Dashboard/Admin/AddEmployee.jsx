@@ -12,7 +12,7 @@ const AddEmployee = () => {
   const singleUser = useSingleUser();
   const admin_package = singleUser?.category;
   const price = admin_package?.split(".")[0].slice(0, 2) || 0;
-  // console.log(price);
+
   const axiosCommon = useAxiosCommon();
   const queryClient = useQueryClient();
 
@@ -27,8 +27,6 @@ const AddEmployee = () => {
       return data;
     },
   });
-
-  console.log(userData);
 
   const { data: teamData = [], isLoading: isTeamLoading } = useQuery({
     queryKey: ["team"],
@@ -65,12 +63,7 @@ const AddEmployee = () => {
     },
   });
 
-  const handledAddTeam = async (user) => {
-    if (user.role === "admin") {
-      toast.error("Admins cannot be added to the team");
-      return;
-    }
-
+  const handleAddTeam = async (user) => {
     const userAlreadyInTeam = teamData.some(
       (teamMember) => teamMember.email === user.email
     );
@@ -82,9 +75,10 @@ const AddEmployee = () => {
     await mutateAsync(user);
   };
 
-  if (isUsersLoading || isTeamLoading) return <LoadingSpinner></LoadingSpinner>;
+  if (isUsersLoading || isTeamLoading) return <LoadingSpinner />;
 
   const employeeCount = teamData.length;
+  const employees = userData.filter((user) => user.role === "employee");
 
   return (
     <div>
@@ -97,7 +91,7 @@ const AddEmployee = () => {
             Add Employee
           </h2>
           <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full ">
-            {userData.length}
+            {employees.length}
           </span>
         </div>
         <div className="mb-6 flex items-center justify-around">
@@ -106,7 +100,7 @@ const AddEmployee = () => {
           </h3>
 
           <Link to="/dashboard/packages">
-            <button className="btn ">Increase the Limit</button>
+            <button className="btn">Increase the Limit</button>
           </Link>
         </div>
         <div className="overflow-x-auto">
@@ -125,7 +119,7 @@ const AddEmployee = () => {
               </tr>
             </thead>
             <tbody>
-              {userData.map((user) => (
+              {employees.map((user) => (
                 <tr key={user._id}>
                   <th>
                     <label>
@@ -136,7 +130,7 @@ const AddEmployee = () => {
                     <div className="flex items-center gap-3">
                       <div className="avatar">
                         <div className="mask rounded-full w-12 h-12">
-                          <img src={user?.image} alt={user.name}></img>
+                          <img src={user?.image} alt={user.name} />
                         </div>
                       </div>
                     </div>
@@ -145,7 +139,7 @@ const AddEmployee = () => {
                   <td>{user.role}</td>
                   <th>
                     <button
-                      onClick={() => handledAddTeam(user)}
+                      onClick={() => handleAddTeam(user)}
                       className="btn bg-yellow-500"
                       disabled={price <= 0}
                     >
