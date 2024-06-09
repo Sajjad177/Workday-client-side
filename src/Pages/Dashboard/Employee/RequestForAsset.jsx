@@ -268,6 +268,7 @@ import { useQuery } from "@tanstack/react-query";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import useAuth from "../../../Hook/useAuth";
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 
 const RequestForAsset = () => {
   const [openModal, setOpenModal] = useState(false);
@@ -311,11 +312,15 @@ const RequestForAsset = () => {
 
     try {
       const { data } = await axiosCommon.put(`/request-asset/${selectedAssetId}`, requestInfo);
-      console.log("Asset updated:", data);
+      // console.log("Asset updated:", data);
+      if (data.modifiedCount > 0) {
+        toast.success("Request for assets successfully");
+      }
       setOpenModal(false);
       refetch(); // Refetch assets after updating the quantity
     } catch (error) {
       console.error("Error requesting asset:", error);
+      toast.error("Invalid please check again")
     }
   };
 
@@ -441,7 +446,7 @@ const RequestForAsset = () => {
                             className=" rounded-md bg-gray-700 py-2 px-5 text-white"
                             disabled={asset.quantity == 0}
                           >
-                            Action
+                            Request
                           </button>
                           <div
                             onClick={() => setOpenModal(false)}

@@ -9,7 +9,7 @@ import useSingleUser from "../../Hook/useSingleUser";
 const Navbar = () => {
   const { user, logOut } = useAuth();
   const singleUser = useSingleUser();
-  console.log(singleUser);
+  // console.log(singleUser);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleLinkClick = () => {
@@ -129,13 +129,6 @@ const Navbar = () => {
                         >
                           Login
                         </Link>
-                        {/* <Link
-                          to="/signup"
-                          onClick={handleLinkClick}
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Sign Up
-                        </Link> */}
                       </>
                     )}
                   </div>

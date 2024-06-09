@@ -6,7 +6,7 @@ import { Helmet } from "react-helmet-async";
 
 const MyAssets = () => {
   const user = useSingleUser();
-  const assets = useAllAsset();
+  const [assets] = useAllAsset();
   const [myAssets, setMyAssets] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -23,6 +23,8 @@ const MyAssets = () => {
     );
     setMyAssets(filteredAssets);
   }, [assets, user.email, searchTerm, statusFilter, typeFilter]);
+
+  // console.log(myAssets);
 
   return (
     <div>
@@ -149,9 +151,12 @@ const MyAssets = () => {
                                   : "text-green-500 bg-green-100/60"
                               }`}
                             >
-                              {asset.status === "pending"
-                                ? "not complete"
-                                : "approved date"}
+                              {/* {new Date(
+                                asset?.approvedDate
+                              ).toLocaleDateString()} */}
+                              {asset?.approvedDate ? new Date(
+                                asset?.approvedDate
+                              ).toLocaleDateString() : ""}
                             </p>
                           </div>
                         </td>

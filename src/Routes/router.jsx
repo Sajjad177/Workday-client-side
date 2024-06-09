@@ -21,7 +21,8 @@ import Profile from "../Components/Dashboard/Profile";
 import EmployeeHome from "../Pages/Dashboard/Employee/EmployeeHome";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "../Pages/Payment/Payment";
-// import OurPackages from "../Components/OurPackages/OurPackages";
+// import TeamRoute from "./TeamRoute";
+
 
 export const router = createBrowserRouter([
   {
@@ -56,7 +57,11 @@ export const router = createBrowserRouter([
   },
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       // employee
       {

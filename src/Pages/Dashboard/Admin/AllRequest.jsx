@@ -2,9 +2,15 @@ import { IoIosSearch } from "react-icons/io";
 import useAllAsset from "../../../Hook/useAllAsset";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import useAxiosCommon from "../../../Hook/useAxiosCommon";
+import toast from "react-hot-toast";
+import { useMutation } from "@tanstack/react-query";
+
 
 const AllRequest = () => {
-  const assets = useAllAsset();
+  const [assets, refetch] = useAllAsset();
+  console.log(assets);
+  const axiosCommon = useAxiosCommon();
   const [assetRequest, setRequestAsset] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -18,7 +24,112 @@ const AllRequest = () => {
     asset.assetName.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  console.log(assets)
+  // const approveMutation = useMutation(
+  //   (id) => axiosCommon.put(`/request-update/${id}`, {
+  //     status: "approved",
+  //     approvedDate: new Date(),
+  //   }),
+  //   {
+  //     onSuccess: () => {
+  //       toast.success("Approved the request");
+  //       refetch(); // Refetch the data after mutation success
+  //     },
+  //     onError: (error) => {
+  //       console.error(error);
+  //       toast.error("Failed to approve the request");
+  //     },
+  //   }
+  // );
+
+  // // Define mutation for rejecting requests
+  // const rejectMutation = useMutation(
+  //   (id) => axiosCommon.put(`/request-update/${id}`, {
+  //     status: "rejected",
+  //     rejectedDate: new Date(),
+  //   }),
+  //   {
+  //     onSuccess: () => {
+  //       toast.success("Rejected the request");
+  //       refetch(); // Refetch the data after mutation success
+  //     },
+  //     onError: (error) => {
+  //       console.error(error);
+  //       toast.error("Failed to reject the request");
+  //     },
+  //   }
+  // );
+
+  // // Event handlers for approve and reject buttons
+  // const handleApprove = (id) => {
+  //   approveMutation.mutate(id);
+  // };
+
+  // const handleReject = (id) => {
+  //   rejectMutation.mutate(id);
+  // };
+
+
+
+  const handelApproved = async (id) => {
+    console.log(id);
+
+    try {
+      const currentInfo = {
+        status: "approved",
+        approvedDate: new Date(),
+      };
+
+      const { data } = await axiosCommon.put(
+        `/request-update/${id}`,
+        currentInfo
+      );
+      console.log(data);
+
+      if (data.modifiedCount > 0) {
+        toast.success("Approved the request");
+      }
+
+      // Update the local state to reflect the change
+      setRequestAsset((prevRequests) =>
+        prevRequests.map((request) =>
+          request._id === id ? { ...request, ...currentInfo } : request
+        )
+      );
+      refetch()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handelReject = async (id) => {
+    console.log(id);
+
+    try {
+      const currentInfo = {
+        status: "rejected",
+        rejectedDate: new Date(),
+      };
+
+      const { data } = await axiosCommon.put(
+        `/request-update/${id}`,
+        currentInfo
+      );
+      // console.log(data);
+      if (data.modifiedCount > 0) {
+        toast.success("You rejected the request");
+      }
+
+      // Update the local state to reflect the change
+      setRequestAsset((prevRequests) =>
+        prevRequests.map((request) =>
+          request._id === id ? { ...request, ...currentInfo } : request
+        )
+      );
+      refetch()
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div>
@@ -146,11 +257,33 @@ const AllRequest = () => {
                           {asset.status}
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button className="btn bg-green-500">Approve</button>
-                          <button className="btn bg-red-600 ml-2">
+                          <button
+                            onClick={() => handelApproved(asset._id)}
+                            className="btn bg-green-500"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handelReject(asset._id)}
+                            className="btn bg-red-600 ml-2"
+                          >
                             Reject
                           </button>
                         </td>
+                        {/* <td className="px-4 py-4 text-sm whitespace-nowrap">
+                          <button
+                            onClick={() => handleApprove(asset._id)}
+                            className="btn bg-green-500"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            onClick={() => handleReject(asset._id)}
+                            className="btn bg-red-600 ml-2"
+                          >
+                            Reject
+                          </button>
+                        </td> */}
                       </tr>
                     ))}
                   </tbody>
