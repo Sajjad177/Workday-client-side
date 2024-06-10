@@ -2,18 +2,17 @@ import { useEffect, useState } from "react";
 import useAllAsset from "../../../../Hook/useAllAsset";
 
 const LimitedStock = () => {
-
-  const [assets] = useAllAsset()
-  // console.log(assets)
-  const [limited, setLimited] = useState()
+  const [assets] = useAllAsset();
+  const [limited, setLimited] = useState();
 
   useEffect(() => {
-    const filteredAsset = assets.filter((asset) => asset?.quantity >= 1 && asset?.quantity <= 10);
+    const filteredAsset = assets.filter(
+      (asset) => asset?.quantity >= 1 && asset?.quantity <= 10
+    );
     setLimited(filteredAsset);
   }, [assets]);
 
-  console.log(limited)
-
+  console.log(limited);
 
   return (
     <div className="container mx-auto lg:my-20 my-14 p-3">
@@ -28,7 +27,13 @@ const LimitedStock = () => {
           >
             <div className="grid gap-2">
               <h1 className="text-lg font-semibold ">{asset?.assetName}</h1>
-              <p className="text-sm text-gray-500">{asset?.category}</p>
+              <div className="flex justify-between">
+                <p className="text-sm text-gray-500">{asset?.category}</p>
+                <div className="flex items-center gap-2">
+                  <h5>Quantity: </h5>
+                  <p className=" text-gray-500">{asset?.quantity}</p>
+                </div>
+              </div>
               <h4>Add By : {asset?.email}</h4>
             </div>
           </div>

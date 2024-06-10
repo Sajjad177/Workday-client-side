@@ -48,7 +48,7 @@ const JoinAsHR = () => {
 
       console.log(result);
       toast.success("Sign up successfully");
-      navigate("/paymentJ");
+      navigate("/payment");
     } catch (error) {
       toast.error(error.message);
     } finally {
@@ -147,7 +147,7 @@ const JoinAsHR = () => {
                 </label>
                 <div className="relative w-full">
                   <DatePicker
-                    className="p-3 block w-full pl-10 drop-shadow-lg outline-none"
+                    className="p-3 block w-full drop-shadow-lg outline-none"
                     selected={startDate}
                     onChange={(date) => setStartDate(date)}
                   />
@@ -173,20 +173,6 @@ const JoinAsHR = () => {
               </button>
             </div>
           </form>
-          <div>
-            <div className="flex items-center px-8">
-              <hr className="flex-1" />
-              <div className="mx-4 text-gray-400">OR</div>
-              <hr className="flex-1" />
-            </div>
-            <button
-              // onClick={handleGoogle}
-              type="button"
-              className="py-2 px-5 mb-4 mt-8 mx-auto block shadow-lg border rounded-md border-black"
-            >
-              Continue with Google
-            </button>
-          </div>
           <p className="text-center text-lg">
             Already Have an account{" "}
             <Link to="/login">

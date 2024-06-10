@@ -2,10 +2,11 @@ import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import useAuth from "../../../Hook/useAuth";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet-async";
+import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 
 const MyTeam = () => {
   const axiosCommon = useAxiosCommon();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
 
   const { data: adminEmail = [] } = useQuery({
     queryKey: ["hrEmail", user?.email],
@@ -17,7 +18,7 @@ const MyTeam = () => {
     },
   });
 
-  
+  console.log(adminEmail);
 
   const { data: teams } = useQuery({
     queryKey: ["teams"],
@@ -27,6 +28,8 @@ const MyTeam = () => {
       // setMyTeam(data)
     },
   });
+
+  if (loading) return <LoadingSpinner></LoadingSpinner>;
 
   return (
     <div>
@@ -46,7 +49,7 @@ const MyTeam = () => {
                 width={100}
                 height={100}
                 className="absolute -bottom-12 left-1/2 h-[100px] w-[100px] -translate-x-1/2 rounded-full border-4 border-white bg-gray-400 dark:border-[#18181B]"
-                src={team.photo}
+                src={team.image}
                 alt="card navigate ui"
               />
             </div>

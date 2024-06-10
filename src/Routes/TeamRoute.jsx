@@ -1,21 +1,15 @@
-
-import PropTypes from 'prop-types';
-import useAllTeams from '../Hook/useAllTeams';
+import PropTypes from "prop-types";
 import { Navigate } from "react-router-dom";
-import useSingleUser from '../Hook/useSingleUser';
 
-const TeamRoute = ({children}) => {
-    const singleUser = useSingleUser()
-    console.log(singleUser)
-    const teams = useAllTeams()
-    console.log(teams)
-    if( teams?.role ==="employee" && teams?.email === singleUser?.email) return children
+const TeamRoute = ({ children }) => {
 
-    return <Navigate to ='/'></Navigate>
+
+    
+  return <Navigate to="/"></Navigate>;
 };
 
 TeamRoute.propTypes = {
-    children:PropTypes.element
+  children: PropTypes.element,
 };
 
 export default TeamRoute;

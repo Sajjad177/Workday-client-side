@@ -1,16 +1,8 @@
-import useAxiosCommon from "../../../Hook/useAxiosCommon";
-import useAuth from "../../../Hook/useAuth";
-import { Link, useNavigate } from "react-router-dom";
-import toast from "react-hot-toast";
+import { Link } from "react-router-dom";
+
 import { BsCheck2All } from "react-icons/bs";
 
 const Packages = () => {
-  const { user: loggedUser } = useAuth();
-  const axiosCommon = useAxiosCommon();
-  const navigate = useNavigate();
-
-  
-
   const listArray = [
     "100+ components",
     "20+ built-in pages",
@@ -52,10 +44,7 @@ const Packages = () => {
             </ul>
             <div className="mr-8">
               <Link to="/payment">
-                <button
-                  
-                  className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white"
-                >
+                <button className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white">
                   BUY NOW
                 </button>
               </Link>
@@ -90,12 +79,11 @@ const Packages = () => {
               ))}
             </ul>
             <div className="mr-8">
-              <button
-                onClick={() => handleBuyPackage("5_member)")}
-                className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white"
-              >
-                BUY NOW
-              </button>
+              <Link to="/payment">
+                <button className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white">
+                  BUY NOW
+                </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -127,12 +115,11 @@ const Packages = () => {
               ))}
             </ul>
             <div className="mr-8">
-              <button
-                onClick={() => handleBuyPackage("5_member)")}
-                className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white"
-              >
-                BUY NOW
-              </button>
+              <Link to="/payment">
+                <button className="w-full rounded-full bg-gradient-to-r from-[#52b7ff] to-[#0084ff] py-4 text-lg font-semibold uppercase tracking-wider text-white">
+                  BUY NOW
+                </button>
+              </Link>
             </div>
           </div>
         </div>

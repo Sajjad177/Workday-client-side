@@ -1,20 +1,24 @@
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import useAxiosCommon from "../../../Hook/useAxiosCommon";
 import useAuth from "../../../Hook/useAuth";
 import toast from "react-hot-toast";
 import LoadingSpinner from "../../../Components/LoadingSpinner/LoadingSpinner";
 import useSingleUser from "../../../Hook/useSingleUser";
 import { Helmet } from "react-helmet-async";
+import { useState } from "react";
+import useSecure from "../../../Hook/useSecure";
 
 const AddEmployee = () => {
   const { user: loggedUser } = useAuth();
   const singleUser = useSingleUser();
   const admin_package = singleUser?.category;
-  const price = admin_package?.split(".")[0].slice(0, 2) || 0;
 
-  const axiosCommon = useAxiosCommon();
+  const price = admin_package
+    ? parseInt(admin_package.split(".")[0].match(/\d+/)[0], 10)
+    : 0;
+  const axiosSecure = useSecure();
   const queryClient = useQueryClient();
+  const [selectedUsers, setSelectedUsers] = useState([]);
 
   const {
     data: userData = [],
@@ -23,15 +27,14 @@ const AddEmployee = () => {
   } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const { data } = await axiosCommon("/users");
+      const { data } = await axiosSecure("/users");
       return data;
     },
   });
-
   const { data: teamData = [], isLoading: isTeamLoading } = useQuery({
     queryKey: ["team"],
     queryFn: async () => {
-      const { data } = await axiosCommon(`/team/${loggedUser.email}`);
+      const { data } = await axiosSecure(`/team/${loggedUser.email}`);
       return data;
     },
   });
@@ -46,13 +49,13 @@ const AddEmployee = () => {
         workAt: loggedUser.email,
         team: true,
       };
-      const { data } = await axiosCommon.post("/team", userInfo);
+      const { data } = await axiosSecure.post("/team", userInfo);
+
+      await axiosSecure.patch(`/user/update/${userData._id}`, userInfo);
+
       return data;
     },
-    onSuccess: (data, user) => {
-      queryClient.setQueryData(["users"], (oldData) =>
-        oldData.filter((u) => u._id !== user._id)
-      );
+    onSuccess: () => {
       queryClient.invalidateQueries(["team"]);
       refetch();
       toast.success("Added to your team successfully");
@@ -73,12 +76,38 @@ const AddEmployee = () => {
     }
 
     await mutateAsync(user);
+
+    refetch();
+  };
+
+  const handleSelectUser = (userId) => {
+    setSelectedUsers((prevSelected) =>
+      prevSelected.includes(userId)
+        ? prevSelected.filter((id) => id !== userId)
+        : [...prevSelected, userId]
+    );
+  };
+
+  const handleAddSelectedUsers = async () => {
+    const usersToAdd = userData.filter((user) =>
+      selectedUsers.includes(user._id)
+    );
+
+    for (const user of usersToAdd) {
+      await handleAddTeam(user);
+    }
+
+    setSelectedUsers([]);
   };
 
   if (isUsersLoading || isTeamLoading) return <LoadingSpinner />;
 
   const employeeCount = teamData.length;
-  const employees = userData.filter((user) => user.role === "employee");
+  const totalAdd = price - employeeCount;
+  // console.log(totalAdd)
+  const employees = userData.filter(
+    (user) => user.role === "employee" && user.workAt === null
+  );
 
   return (
     <div>
@@ -96,7 +125,7 @@ const AddEmployee = () => {
         </div>
         <div className="mb-6 flex items-center justify-around">
           <h3 className="text-lg font-semibold">
-            Employee Count: {employeeCount} / {price - employeeCount}
+            Employee Count: {employeeCount} / {totalAdd}
           </h3>
 
           <Link to="/dashboard/packages">
@@ -123,7 +152,12 @@ const AddEmployee = () => {
                 <tr key={user._id}>
                   <th>
                     <label>
-                      <input type="checkbox" className="checkbox" />
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={selectedUsers.includes(user._id)}
+                        onChange={() => handleSelectUser(user._id)}
+                      />
                     </label>
                   </th>
                   <td>
@@ -140,8 +174,8 @@ const AddEmployee = () => {
                   <th>
                     <button
                       onClick={() => handleAddTeam(user)}
-                      className="btn bg-yellow-500"
-                      disabled={price <= 0}
+                      className="btn disabled:cursor-not-allowed bg-yellow-500"
+                      disabled={totalAdd <= 0}
                     >
                       Add To Team
                     </button>
@@ -151,7 +185,9 @@ const AddEmployee = () => {
             </tbody>
           </table>
         </div>
-        <button className="btn mt-16">Add Selected Member</button>
+        <button className="btn mt-16" onClick={handleAddSelectedUsers}>
+          Add Selected Members
+        </button>
       </div>
     </div>
   );

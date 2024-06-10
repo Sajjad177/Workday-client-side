@@ -51,10 +51,10 @@ const AddAsset = () => {
       <Helmet>
         <title>WorkDay / Add Assets</title>
       </Helmet>
-      <div className="container mx-auto">
+      <div className="container mx-auto p-3">
         <h1 className="text-4xl text-center mt-10">Add Asset</h1>
         <form onSubmit={addAssets}>
-          <div className="mx-auto my-20 w-[50vw] space-y-6 rounded-xl border bg-white px-4 pb-8 pt-4 font-sans shadow-lg ">
+          <div className="mx-auto my-20 lg:w-[50vw] space-y-6 rounded-xl border bg-white px-4 pb-8 pt-4 font-sans shadow-lg">
             <div className="relative w-full rounded-lg">
               <input
                 name="asset"

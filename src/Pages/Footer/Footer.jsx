@@ -1,8 +1,8 @@
 const Footer = () => {
   return (
     <div>
-      <footer className="flex flex-col text-black lg:mt-20 mt-14">
-        <div className="flex flex-col items-center justify-around gap-5 bg-sky-50 py-8 md:flex-row md:gap-0">
+      <footer className="flex flex-col text-black lg:mt-20 mt-14 ">
+        <div className="flex flex-col items-center justify-around gap-5 py-8 md:flex-row md:gap-0 bg-[#393e46]">
           <aside className="flex items-center justify-center gap-3 text-xl">
             <h1 className="text-3xl font-bold">WorkDay..</h1>
           </aside>
@@ -50,7 +50,7 @@ const Footer = () => {
             </ul>
           </nav>
         </div>
-        <aside className="bg-sky-100 py-5 text-center text-sm">
+        <aside className="bg-[#393e46]/90 py-5 text-center text-sm">
           <p>&copy; 2024 NavigateUI. All Rights Reserved.</p>
         </aside>
       </footer>

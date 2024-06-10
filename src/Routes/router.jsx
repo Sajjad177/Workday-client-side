@@ -21,13 +21,16 @@ import Profile from "../Components/Dashboard/Profile";
 import EmployeeHome from "../Pages/Dashboard/Employee/EmployeeHome";
 import PrivateRoute from "./PrivateRoute";
 import Payment from "../Pages/Payment/Payment";
+import ErrorPage from "../Components/ErrorPage/ErrorPage";
+import AdminRout from "./AdminRout";
 // import TeamRoute from "./TeamRoute";
-
+// import TeamRoute from "./TeamRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <Main></Main>,
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         path: "/",
@@ -63,7 +66,7 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
-      // employee
+      //TODO---------- employee------------
       {
         path: "employee-home",
         element: (
@@ -96,12 +99,14 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
-      // Admin------------
+      //TODO----------- Admin------------
       {
         path: "admin-home",
         element: (
           <PrivateRoute>
-            <AdminHome></AdminHome>
+            <AdminRout>
+              <AdminHome></AdminHome>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -109,7 +114,9 @@ export const router = createBrowserRouter([
         path: "asset-list",
         element: (
           <PrivateRoute>
-            <AssetList></AssetList>
+            <AdminRout>
+              <AssetList></AssetList>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -117,7 +124,9 @@ export const router = createBrowserRouter([
         path: "add-asset",
         element: (
           <PrivateRoute>
-            <AddAsset></AddAsset>
+            <AdminRout>
+              <AddAsset></AddAsset>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -125,7 +134,9 @@ export const router = createBrowserRouter([
         path: "update/:id",
         element: (
           <PrivateRoute>
-            <UpdateAsset></UpdateAsset>
+            <AdminRout>
+              <UpdateAsset></UpdateAsset>
+            </AdminRout>
           </PrivateRoute>
         ),
         loader: ({ params }) =>
@@ -135,7 +146,9 @@ export const router = createBrowserRouter([
         path: "custom-request",
         element: (
           <PrivateRoute>
-            <CustomRequest></CustomRequest>
+            <AdminRout>
+              <CustomRequest></CustomRequest>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -143,7 +156,9 @@ export const router = createBrowserRouter([
         path: "my-employee",
         element: (
           <PrivateRoute>
-            <MyEmployee></MyEmployee>
+            <AdminRout>
+              <MyEmployee></MyEmployee>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -151,7 +166,9 @@ export const router = createBrowserRouter([
         path: "add-employee",
         element: (
           <PrivateRoute>
-            <AddEmployee></AddEmployee>
+            <AdminRout>
+              <AddEmployee></AddEmployee>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -159,7 +176,9 @@ export const router = createBrowserRouter([
         path: "all-request",
         element: (
           <PrivateRoute>
-            <AllRequest></AllRequest>
+            <AdminRout>
+              <AllRequest></AllRequest>
+            </AdminRout>
           </PrivateRoute>
         ),
       },
@@ -167,7 +186,9 @@ export const router = createBrowserRouter([
         path: "packages",
         element: (
           <PrivateRoute>
-            <Packages></Packages>
+            <AdminRout>
+              <Packages></Packages>
+            </AdminRout>
           </PrivateRoute>
         ),
       },

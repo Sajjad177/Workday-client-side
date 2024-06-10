@@ -10,13 +10,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { auth } from "../firebase/firebase.config";
-
+import useAxiosCommon from "../Hook/useAxiosCommon";
 
 export const AuthContext = createContext(null);
 
 const googleProvider = new GoogleAuthProvider();
 const AuthProvider = ({ children }) => {
-
+  const axiosCommon = useAxiosCommon();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -47,33 +47,29 @@ const AuthProvider = ({ children }) => {
     });
   };
 
-  // I want to send users to the database from here, no matter how the user comes, the user should be saved in the database
-
-  // const saveUser = async (user) => {
-  //   const currentUser = {
-  //     email: user?.email,
-  //     role: "employee",
-  //     status: "verified",
-  //   };
-  //   const { data } = await axios.put(`${import.meta.env.VITE_API_URL}/user`, currentUser);
-  //   return data;
-  // };
-
-
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        // getToken(currentUser.email);
-        // saveUser()
+    const unsubscribe = onAuthStateChanged(auth, async(currentUser) => {
+      try {
+        setUser(currentUser);
+        if (currentUser) {
+          const userInfo = { email: currentUser.email };
+          const { data } = await axiosCommon.post("/jwt", userInfo);
+          if (data.token) {
+            localStorage.setItem("access-token", data.token);
+          }
+        } else {
+          localStorage.removeItem("access-token");
+        }
+      } catch (error) {
+        console.error("Error in auth state change:", error);
+      } finally {
+        setLoading(false);
       }
-      setLoading(false);
     });
     return () => {
       return unsubscribe();
     };
-  }, []);
-
+  }, [axiosCommon]);
 
   const authInfo = {
     user,

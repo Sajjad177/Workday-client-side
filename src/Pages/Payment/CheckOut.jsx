@@ -11,24 +11,23 @@ const CheckOut = () => {
   const [successful, setSuccessful] = useState();
   const stripe = useStripe();
   const elements = useElements();
-  const [clientSecret, setClientSecret] = useState("");
+  const [clientSecret, setClientSecret] = useState(0);
   const axiosCommon = useAxiosCommon();
   const singleUser = useSingleUser();
-  // console.log(singleUser)
   const admin_package = singleUser?.category;
-  const price = admin_package?.split(".")[0].slice(0,2);
-  // console.log(price)
+  const price = admin_package?.split(".")[0].slice(0, 2);
   const totalPrice = parseFloat(price);
+  console.log('koy tk mama----->',totalPrice)
   const navigate = useNavigate();
-  //   console.log(price);
-  //   console.log(singleUser);
+  console.log(clientSecret);
   useEffect(() => {
-    if (price > 0) {
+    if (price) {
       axiosCommon
         .post("/create-payment-intent", { price: totalPrice })
         .then((res) => setClientSecret(res.data.clientSecret));
     }
   }, [axiosCommon, totalPrice, price]);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!stripe || !elements) {
@@ -82,8 +81,6 @@ const CheckOut = () => {
       }
     }
   };
-
-
 
   return (
     <div>

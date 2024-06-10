@@ -1,8 +1,18 @@
+
+import PropTypes from "prop-types";
+import { useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import useSingleUser from "../../Hook/useSingleUser";
-import { useEffect, useState } from "react";
 import useAllAsset from "../../Hook/useAllAsset";
 import { Helmet } from "react-helmet-async";
+import {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  PDFDownloadLink,
+} from "@react-pdf/renderer";
 
 const MyAssets = () => {
   const user = useSingleUser();
@@ -24,7 +34,52 @@ const MyAssets = () => {
     setMyAssets(filteredAssets);
   }, [assets, user.email, searchTerm, statusFilter, typeFilter]);
 
-  // console.log(myAssets);
+  const handleCancelRequest = (assetId) => {
+    setMyAssets((prevAssets) =>
+      prevAssets.map((asset) =>
+        asset._id === assetId ? { ...asset, status: "cancelled" } : asset
+      )
+    );
+  };
+
+  const handleReturnAsset = (assetId) => {
+    setMyAssets((prevAssets) =>
+      prevAssets.map((asset) =>
+        asset._id === assetId ? { ...asset, status: "returned" } : asset
+      )
+    );
+  };
+
+  const styles = StyleSheet.create({
+    section: {
+      margin: 10,
+      padding: 10,
+      fontSize: 12,
+    },
+  });
+
+  const AssetDocument = ({ asset }) => (
+    <Document>
+      <Page size="A4">
+        <View style={styles.section}>
+          <Text>Company Information</Text>
+        </View>
+        <View style={styles.section}>
+          <Text>Asset Name: {asset.assetName}</Text>
+          <Text>Asset Type: {asset.category}</Text>
+          <Text>
+            Request Date: {new Date(asset.request_date).toLocaleDateString()}
+          </Text>
+          <Text>
+            Approval Date: {new Date(asset.approvedDate).toLocaleDateString()}
+          </Text>
+        </View>
+        <View style={styles.section}>
+          <Text>Printed on: {new Date().toLocaleDateString()}</Text>
+        </View>
+      </Page>
+    </Document>
+  );
 
   return (
     <div>
@@ -151,12 +206,11 @@ const MyAssets = () => {
                                   : "text-green-500 bg-green-100/60"
                               }`}
                             >
-                              {/* {new Date(
-                                asset?.approvedDate
-                              ).toLocaleDateString()} */}
-                              {asset?.approvedDate ? new Date(
-                                asset?.approvedDate
-                              ).toLocaleDateString() : ""}
+                              {asset?.approvedDate
+                                ? new Date(
+                                    asset?.approvedDate
+                                  ).toLocaleDateString()
+                                : ""}
                             </p>
                           </div>
                         </td>
@@ -174,12 +228,47 @@ const MyAssets = () => {
                           </div>
                         </td>
                         <td className="px-4 py-4 text-sm whitespace-nowrap">
-                          <button
-                            title="Mark Complete"
-                            className="btn text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none disabled:cursor-not-allowed"
-                          >
-                            Cancel-- not complete
-                          </button>
+                          {asset.status === "pending" && (
+                            <button
+                              title="Cancel Request"
+                              className="btn text-gray-500 transition-colors duration-200 hover:text-red-500 focus:outline-none"
+                              onClick={() => handleCancelRequest(asset._id)}
+                            >
+                              Cancel
+                            </button>
+                          )}
+                          {asset.status === "approved" && (
+                            <>
+                              <PDFDownloadLink
+                                document={<AssetDocument asset={asset} />}
+                                fileName="asset-details.pdf"
+                              >
+                                {({ loading }) =>
+                                  loading ? (
+                                    <button className="btn text-gray-500 transition-colors duration-200 hover:text-green-500 focus:outline-none">
+                                      Loading Document...
+                                    </button>
+                                  ) : (
+                                    <button className="btn text-gray-500 transition-colors duration-200 hover:text-green-500 focus:outline-none">
+                                      Print
+                                    </button>
+                                  )
+                                }
+                              </PDFDownloadLink>
+                              {asset.category === "Returnable" && (
+                                <button
+                                  title="Return Asset"
+                                  className="btn text-gray-500 transition-colors duration-200 ml-2 hover:text-blue-500 focus:outline-none"
+                                  onClick={() => handleReturnAsset(asset._id)}
+                                  disabled={asset.status === "returned"}
+                                >
+                                  {asset.status === "returned"
+                                    ? "Returned"
+                                    : "Return"}
+                                </button>
+                              )}
+                            </>
+                          )}
                         </td>
                       </tr>
                     ))}
@@ -192,6 +281,9 @@ const MyAssets = () => {
       </section>
     </div>
   );
+};
+MyAssets.propTypes = {
+  asset: PropTypes.object,
 };
 
 export default MyAssets;

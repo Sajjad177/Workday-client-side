@@ -1,14 +1,26 @@
 import { useEffect, useState } from "react";
 import useAllAsset from "../../../../Hook/useAllAsset";
+import useSingleUser from "../../../../Hook/useSingleUser";
 
 const PendingRequest = () => {
   const [assets] = useAllAsset();
+  console.log(assets)
+  const singleUser = useSingleUser()
+  console.log(singleUser)
   const [assetRequest, setRequestAsset] = useState([]);
 
   useEffect(() => {
-    const filteredAsset = assets.filter((asset) => asset.status === "pending");
+    if(singleUser.email === assets.email){
+      const filteredAsset = assets.filter((asset) => asset.status === "pending");
     setRequestAsset(filteredAsset);
-  }, [assets]);
+    }
+  }, [assets, singleUser.email]);
+
+
+  // useEffect(() => {
+  //   const filteredAsset = assets.filter((asset) => asset.status === "pending");
+  //   setRequestAsset(filteredAsset);
+  // }, [assets]);
 
   return (
     <div className="container mx-auto p-3">

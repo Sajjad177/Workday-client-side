@@ -4,7 +4,6 @@ import { FaClipboardList } from "react-icons/fa";
 import { FaUsers } from "react-icons/fa";
 import { MdOutlineAddLink } from "react-icons/md";
 
-
 const EmployeeMenu = () => {
   return (
     <div>
@@ -19,15 +18,11 @@ const EmployeeMenu = () => {
         icon={FaClipboardList}
       ></MenuItem>
       <MenuItem
-        label={"My Team"}
-        address={"my-team"}
-        icon={FaUsers}
-      ></MenuItem>
-      <MenuItem
         label={"Request For Assets"}
         address={"request-asset"}
         icon={MdOutlineAddLink}
       ></MenuItem>
+      <MenuItem label={"My Team"} address={"my-team"} icon={FaUsers}></MenuItem>
     </div>
   );
 };

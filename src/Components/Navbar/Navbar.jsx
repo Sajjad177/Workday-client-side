@@ -1,20 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { IoMdMenu } from "react-icons/io";
 import useAuth from "../../Hook/useAuth";
 import avatarImg from "../../assets/avatar2.png";
 import logo from "../../assets/logo.avif";
 import useSingleUser from "../../Hook/useSingleUser";
+import useAxiosCommon from "../../Hook/useAxiosCommon";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
+import useRole from "../../Hook/useRole";
 
 const Navbar = () => {
-  const { user, logOut } = useAuth();
+  const { user, logOut, setLoading, loading } = useAuth();
+  // console.log(user)
+  const [role] = useRole();
+  const axiosCommon = useAxiosCommon();
   const singleUser = useSingleUser();
-  // console.log(singleUser);
+  console.log("Single user data:", singleUser);
+
   const [isOpen, setIsOpen] = useState(false);
+  const [isWork, setIsWork] = useState(false);
 
   const handleLinkClick = () => {
     setIsOpen(false);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const { data } = await axiosCommon.get(`/checkTeam/${user?.email}`);
+        console.log("API response:", data);
+        setIsWork(data.isWork);
+      } catch (error) {
+        console.log("Error fetching team data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.email) {
+      fetchData();
+    } else {
+      setLoading(false);
+    }
+  }, [user?.email, axiosCommon, setLoading]);
+
+  if (loading) return <LoadingSpinner />;
 
   return (
     <div>
@@ -55,14 +85,12 @@ const Navbar = () => {
           <div className="flex items-center justify-between gap-5">
             <div className="relative">
               <div className="flex flex-row items-center gap-3">
-                {/* Dropdown btn */}
                 <div
                   onClick={() => setIsOpen(!isOpen)}
                   className="p-4 md:py-1 md:px-2 border-[1px] border-neutral-200 flex flex-row items-center gap-3 rounded-full cursor-pointer hover:shadow-md transition"
                 >
-                  <IoMdMenu className="text-2xl"></IoMdMenu>
+                  <IoMdMenu className="text-2xl" />
                   <div className="hidden md:block">
-                    {/* Avatar */}
                     <img
                       className="rounded-full"
                       referrerPolicy="no-referrer"
@@ -105,31 +133,39 @@ const Navbar = () => {
 
                     {user ? (
                       <>
-                        <Link
-                          to="/dashboard"
-                          onClick={handleLinkClick}
-                          className="block px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Dash Board
-                        </Link>
+                        {role === "admin" && (
+                          <Link
+                            to="/dashboard"
+                            onClick={handleLinkClick}
+                            className="block px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                          >
+                            Dashboard
+                          </Link>
+                        )}
+                        {isWork && (
+                          <Link
+                            to="/dashboard"
+                            onClick={handleLinkClick}
+                            className="block px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                          >
+                            Dashboard
+                          </Link>
+                        )}
                         <div
                           onClick={logOut}
-                          // onClick={handleLinkClick}
                           className="px-4 py-3 hover:bg-neutral-100 transition font-semibold cursor-pointer"
                         >
                           Logout
                         </div>
                       </>
                     ) : (
-                      <>
-                        <Link
-                          to="/login"
-                          onClick={handleLinkClick}
-                          className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
-                        >
-                          Login
-                        </Link>
-                      </>
+                      <Link
+                        to="/login"
+                        onClick={handleLinkClick}
+                        className="px-4 py-3 hover:bg-neutral-100 transition font-semibold"
+                      >
+                        Login
+                      </Link>
                     )}
                   </div>
                 </div>

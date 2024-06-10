@@ -1,10 +1,12 @@
+import Lottie from "lottie-react";
+import loading from "../../../public/loading.json";
 
 const LoadingSpinner = () => {
-    return (
-        <div>
-            <div className="w-10 h-10 animate-[spin_2s_linear_infinite] rounded-full border-8 border-dotted border-sky-600"></div>
-        </div>
-    );
+  return (
+    <div className="container m-auto w-[20vw] my-20 ">
+      <Lottie animationData={loading} />
+    </div>
+  );
 };
 
 export default LoadingSpinner;

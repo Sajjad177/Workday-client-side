@@ -13,7 +13,7 @@ const AdminMenu = () => {
     <div>
       <MenuItem
         label={"Home"}
-        address={"/dashboard/admin-home"}
+        address={"admin-home"}
         icon={MdAddHomeWork}
       ></MenuItem>
       <MenuItem

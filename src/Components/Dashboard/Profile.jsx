@@ -3,8 +3,10 @@ import { FcUpload } from "react-icons/fc";
 import { imageUpload } from "../../utils/index";
 import useAxiosCommon from "../../Hook/useAxiosCommon";
 import useSingleUser from "../../Hook/useSingleUser";
-import toast from "react-hot-toast";
+import avatarImg from "../../assets/avatar2.png";
+
 import { Helmet } from "react-helmet-async";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   const singleUser = useSingleUser();
@@ -48,11 +50,9 @@ const Profile = () => {
       <h1 className="text-4xl text-center mt-10 font-bold"> Your Profile </h1>
       <div className="mx-auto max-w-[350px] space-y-4 rounded-lg bg-white p-6 shadow-lg md:w-[350px] border mt-20">
         <img
-          width={200}
-          height={200}
-          className="h-[320px] w-[350px] rounded-full object-cover"
-          src={singleUser?.image ? singleUser?.image : "https://ibb.co/CQ4FMZZ"}
-          alt=""
+          className="lg:h-[320px] lg:w-[350px] rounded-full object-cover"
+          src={singleUser && singleUser.image ? singleUser.image : avatarImg}
+          alt="avatar navigate ui"
         />
         <div className="grid gap-2">
           <div className="flex items-center justify-center gap-3">
