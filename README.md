@@ -53,17 +53,7 @@
      ```bash
      npm install
      ```
-3. **Environment setup:**
-   - In your server side configure environment variables by creating a `.env` file in the root directory. Add the following variables:
-     ```plaintext
-     PORT=3000
-     MONGODB_URI=mongodb://localhost:27017/art_and_craft_db
-     STRIPE_SECRET_KEY=your_stripe_secret_key_here
-     JWT_SECRET=your_jwt_secret_key_here
-     ```
-     Replace `your_stripe_secret_key_here` and `your_jwt_secret_key_here` with your actual keys.
-
-4. **Firebase setup:**
+3. **Firebase setup:**
    - In your client side configure environment variables by creating a `.env.local` file in the root directory. Add the following variables:
      ```plaintext
        VITE_APIKEY
@@ -75,11 +65,7 @@
      ```
      Replace `VITE_API_URL` add your server url example `VITE_API_URL='http://localhost:3000'` .
 
-5. **Access the server :**
-   - run code is `nodemon index.js ` or `npm run dev` and also check which file are you now. 
-   - Open your web browser and navigate to `http://localhost:3000` to view the application locally.
-
-7. **Run local :**
+4. **Run local :**
    - Open your vsCode tarminal and check which file are you. Go your client file and run code `npm run dev` then client side run in local.
 
 
