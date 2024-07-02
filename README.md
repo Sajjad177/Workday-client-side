@@ -20,9 +20,9 @@
 - **There are separate dashboards for user and admin.** As a result, roles and permissions are required to do any work.
 - **An administrator** has permission to perform any task but an employee must obtain permission to perform the task.
 
-### Interactive Gallery :
-- **Dynamic and user-friendly interface** for browsing various art and craft items.
-- **High-quality images** and detailed views of each item, enhancing the shopping experience.
+### Employee Management :
+- **When an employee joins**, he cannot perform any work until he is part of a team.
+- **Admin** can add employee to his team according to his choice and after a limit he has to increase the limit through payment.
 
 ### User Authentication :
 - **User-friendly login and registration system** for a personalized experience.
