@@ -29,3 +29,19 @@
 - Users can **easily add, view, edit, and delete** their own art pieces.
 
 ---
+
+
+## 🛠 Technology Used
+
+- **Frontend:** HTML, CSS, JavaScript, React
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Payment:** stripe
+- **Firebase:** Used for real-time database capabilities and user authentication.
+- **Query:** Used for advanced querying and data manipulation tasks.
+- **Authentication:** JWT (JSON Web Tokens)
+<br/>
+
+
+
+
