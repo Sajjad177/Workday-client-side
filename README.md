@@ -37,9 +37,9 @@
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Payment:** stripe
-- **Firebase:** Used for real-time database capabilities and user authentication.
-- **Query:** Used for advanced querying and data manipulation tasks.
-- **Authentication:** JWT (JSON Web Tokens)
+- **Firebase** 
+- **Query**
+- **Authentication:** JWT 
 <br/>
 
 ## How to Clone and Run the Project Locally : 
